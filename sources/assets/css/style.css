@@ -18,7 +18,8 @@
 .br-os-container {
     width: 100%;
     min-height: 100vh;
-    background: #779fdd;
+    background-image: url("../images/wallpaper.jpg");
+    background-size: cover;
 }
 #br-os-apps {
     width: 100%;
@@ -31,6 +32,7 @@
     justify-content: center;
     margin-bottom: 10px;
     cursor: pointer;
+    padding-top: 18px;
 }
 #br-os-apps .app img {
     width: 64px;
@@ -162,8 +164,14 @@
     margin:0;
 }
 nav {
-    background: lightblue;
-    padding: 20px;
+    display: flex;
+    justify-content: center;
+    padding: 1em;
+    border: none;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 1em;
+    background: #E6FDFF;
 }
 
 /* navigation bar */
@@ -177,9 +185,21 @@ nav {
 }
 
 ul {
-    text-align:right;
+    text-align:center;
 }
 
 a { 
     color:#FFFFFF;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

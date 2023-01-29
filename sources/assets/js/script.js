@@ -152,14 +152,38 @@ function current_time () {
     document.getElementById("hours").innerHTML = hours;
     document.getElementById("minutes").innerHTML = minutes;
     document.getElementById("seconds").innerHTML = seconds;
+
+    setInterval(() => {
+        var date = new Date();
+        var hours = date.getHours() + ":";
+        var minutes = date.getMinutes() + ":";
+        var seconds = date.getSeconds();
+        document.getElementById("hours").innerHTML = hours;
+        document.getElementById("minutes").innerHTML = minutes;
+        document.getElementById("seconds").innerHTML = seconds;
+    }, 1000);
 }
 current_time()
 
 // current date
 function current_date (id) {
     var date = new Date();
-    var current_date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-    document.getElementById(id).innerHTML = current_date;
+    var day = date.getDate() + "-";
+    var month = (date.getMonth() + 1) + "-";
+    var year = date.getFullYear();
+    document.getElementById("day").innerHTML = day;
+    document.getElementById("month").innerHTML = month;
+    document.getElementById("year").innerHTML = year;
+
+    setInterval(() => {
+        var date = new Date();
+        var day = date.getDate() + "-";
+        var month = (date.getMonth() + 1) + "-";
+        var year = date.getFullYear();
+        document.getElementById("day").innerHTML = day;
+        document.getElementById("month").innerHTML = month;
+        document.getElementById("year").innerHTML = year;
+    }, 1000);
 }
 current_date("current_date")
 
@@ -177,7 +201,30 @@ function battery_level (id) {
 }
 battery_level("battery_level")
 
-// vibration
+// Vibration
+function vibrationState(id) {
+    if (JSON.parse(localStorage.getItem("vibrationEnabled")) === true) {
+        document.getElementById(id).innerHTML = "Activé";
+    } else {
+        document.getElementById(id).innerHTML = "Désactivé";   
+    }
+}
+vibrationState("vibration")
+
+function vivrationOn() {
+    window.navigator.vibrate([200, 100, 200]);
+    localStorage.setItem("vibrationEnabled", true);
+    document.getElementById("vibrate-on").disabled = true;
+    document.getElementById("vibrate-off").disabled = false;
+}
+
+function vivrationOff() {
+    window.navigator.vibrate(0);
+    localStorage.setItem("vibrationEnabled", false);
+    document.getElementById("vibrate-on").disabled = false;
+    document.getElementById("vibrate-off").disabled = true;
+};
+
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
   // true for mobile device
   console.log("mobile device");
@@ -187,7 +234,7 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 }
 window.navigator.vibrate(200); // vibre pendant 200ms
 
-// latency
+// Latency
 function latency (id) {
     document.getElementById(id).innerHTML = window.performance.now().toFixed(2) + " ms";
 }
@@ -207,6 +254,9 @@ function save() {
     localStorage.setItem("input_minutes", document.getElementById("input_minutes").checked);
     localStorage.setItem("input_seconds", document.getElementById("input_seconds").checked);
     localStorage.setItem("input_current_date", document.getElementById("input_current_date").checked);
+    localStorage.setItem("input_day", document.getElementById("input_day").checked);
+    localStorage.setItem("input_month", document.getElementById("input_month").checked);
+    localStorage.setItem("input_year", document.getElementById("input_year").checked);
     localStorage.setItem("input_vibration", document.getElementById("input_vibration").checked);
     localStorage.setItem("input_battery_level", document.getElementById("input_battery_level").checked);
 }
@@ -219,8 +269,18 @@ function local_storage_values() {
     document.getElementById("input_minutes").checked = JSON.parse(localStorage.getItem("input_minutes"));
     document.getElementById("input_seconds").checked = JSON.parse(localStorage.getItem("input_seconds"));
     document.getElementById("input_current_date").checked = JSON.parse(localStorage.getItem("input_current_date"));
+    document.getElementById("input_day").checked = JSON.parse(localStorage.getItem("input_day"));
+    document.getElementById("input_month").checked = JSON.parse(localStorage.getItem("input_month"));
+    document.getElementById("input_year").checked = JSON.parse(localStorage.getItem("input_year"));
     document.getElementById("input_vibration").checked = JSON.parse(localStorage.getItem("input_vibration"));
     document.getElementById("input_battery_level").checked = JSON.parse(localStorage.getItem("input_battery_level"));
+    if (JSON.parse(localStorage.getItem("vibrationEnabled")) === true) {
+        document.getElementById("vibrate-on").disabled = true;
+        document.getElementById("vibrate-off").disabled = false;
+    } else {
+        document.getElementById("vibrate-on").disabled = false;
+        document.getElementById("vibrate-off").disabled = true;
+    }
 }
 
 // Display saved data
@@ -276,6 +336,31 @@ function savedData() {
         console.log("false");
     }
 
+    // Day
+    if (JSON.parse(localStorage.getItem("input_day")) === true) {
+        document.getElementById("day").style.display = "none";
+        console.log("true");
+    } else {
+        document.getElementById("day").style.display = "inline";
+        console.log("false");
+    }
+    // Month
+    if (JSON.parse(localStorage.getItem("input_month")) === true) {
+        document.getElementById("month").style.display = "none";
+        console.log("true");
+    } else {
+        document.getElementById("month").style.display = "inline";
+        console.log("false");
+    }
+    // Year
+    if (JSON.parse(localStorage.getItem("input_year")) === true) {
+        document.getElementById("year").style.display = "none";
+        console.log("true");
+    } else {
+        document.getElementById("year").style.display = "inline";
+        console.log("false");
+    }
+
     // Vibration
     if (JSON.parse(localStorage.getItem("input_vibration")) === true) {
         document.getElementById("vibration").style.display = "none";
@@ -294,8 +379,27 @@ function savedData() {
         console.log("false");
     }
 }
-
 savedData();
+
+// Verrouiller son écran et déverrouiller
+
+let password = "secret";
+let isLocked = false;
+
+function lockScreen() {
+    isLocked = true;
+    document.getElementById("overlay").style.display = "flex";
+};
+
+function unlockScreen() {
+    let input = document.getElementById("password-input").value;
+    if (input === password) {
+        isLocked = false;
+        document.getElementById("overlay").style.display = "none";
+    } else {
+        alert("Mot de passe incorrect");
+    }
+};
 
 //localStorage.removeItem('input_latency');
 //console.log(JSON.parse(localStorage.getItem("input_latency")));

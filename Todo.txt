@@ -1,0 +1,12 @@
+Pouvoir disposer d’une application permettant de gérer les paramètres
+    ○ Pouvoir configurer la vibration
+        ✓ Pouvoir afficher/masquer l’état de la vibration
+        ✓ Pouvoir activer/désactiver les retours haptique de vibration dans tout le système
+    ○ Pouvoir configurer la latence réseau
+        ■ Pouvoir configurer le nom de domaine du serveur de ping pour la latence réseau
+        ■ Pouvoir configurer le délai de rafraichissement en secondes
+    ✓ Pouvoir enregistrer ses paramètres de manière permanente
+    ✓ Pouvoir configurer la méthode de verrouillage de l’appareil
+    ○ Pouvoir configurer un thème light/dark dans toutes les applications et le système
+
+"✓" veut dire que c'est fait

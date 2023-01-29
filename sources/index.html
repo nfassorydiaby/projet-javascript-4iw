@@ -23,8 +23,8 @@
         <nav>
             <ul class="navigation">
               <li id="current_time"><span id="hours"></span><span id="minutes"></span><span id="seconds"></span></li> 
-              <li id="current_date"></li> 
-              <li id="vibration"> vibration</li> 
+              <li id="current_date"><span id="day"></span><span id="month"></span><span id="year"></span></li> 
+              <li id="vibration"></li> 
               <li id="battery_level"></li> 
               <li id="latency"> latence</li>              
             </ul> 
@@ -98,7 +98,7 @@
 
         <!-- CURRENT TIME -->
         <label for="input_current_time">
-            <input type="checkbox" id="input_current_time" onclick="ShowHideDiv('current_time', this)">  afficher/masquer l'heure
+            <input type="checkbox" id="input_current_time" onclick="ShowHideDiv('current_time', this)">  afficher/masquer l'horaire
         </label><br>
         <label for="input_hours">
             <input type="checkbox" id="input_hours" onclick="ShowHideDiv('hours', this)">  afficher/masquer l'heure
@@ -110,23 +110,25 @@
             <input type="checkbox" id="input_seconds" onclick="ShowHideDiv('seconds', this)">  afficher/masquer les secondes
         </label><br>
 
-        <!-- CURRENT TIME -->
+        <!-- CURRENT DATE -->
         <label for="input_current_date">
             <input type="checkbox" id="input_current_date" onclick="ShowHideDiv('current_date', this)">  afficher/masquer la date
         </label><br>
-        <label for="input_hours">
-            <input type="checkbox" id="input_hours" onclick="ShowHideDiv('hours', this)">  afficher/masquer l'heure
+        <label for="input_day">
+            <input type="checkbox" id="input_day" onclick="ShowHideDiv('day', this)">  afficher/masquer le jour
         </label><br>
-        <label for="input_minutes">
-            <input type="checkbox" id="input_minutes" onclick="ShowHideDiv('minutes', this)">  afficher/masquer les minutes
+        <label for="input_month">
+            <input type="checkbox" id="input_month" onclick="ShowHideDiv('month', this)">  afficher/masquer le mois
         </label><br>
-        <label for="input_seconds">
-            <input type="checkbox" id="input_seconds" onclick="ShowHideDiv('seconds', this)">  afficher/masquer les secondes
+        <label for="input_year">
+            <input type="checkbox" id="input_year" onclick="ShowHideDiv('year', this)">  afficher/masquer l'année
         </label><br>
 
         <!-- VIBRATION -->
         <label for="input_vibration">
             <input type="checkbox" id="input_vibration" onclick="ShowHideDiv('vibration', this)">   afficher/masquer l’état de la vibration
+            <button id="vibrate-on" onclick="vivrationOn()">Activer les vibrations</button>
+            <button id="vibrate-off" onclick="vivrationOff()">Désactiver les vibrations</button>
         </label><br>
 
         <!-- BATTERY LEVEL -->
@@ -134,11 +136,22 @@
             <input type="checkbox" id="input_battery_level" onclick="ShowHideDiv('battery_level', this)">   afficher/masquer l’état de la batterie
         </label><br>
 
-        <button type="button" id="save" onclick="save()">Sauvegarder</button>
+        <button type="button" id="save" onclick="save()">Sauvegarder</button><br>
+
+        <button onclick="lockScreen()">Verrouiller l'écran</button>
     </div>
 
     <div class="app-hide" id="system-info-content">
         <p>system-info</p>
+    </div>
+
+    <div class="overlay" id="overlay" style="display: none;">
+        <div>
+          <h1>Votre écran est verrouillé</h1>
+          <p>Entrez le mot de passe pour déverrouiller</p>
+          <input type="password" id="password-input"/>
+          <button onclick="unlockScreen()">Déverrouiller</button>
+        </div>
     </div>
 
     <!-- Context menu -->
