@@ -22,11 +22,11 @@
     <div class="br-os-container">
         <nav>
             <ul class="navigation">
-              <li> heure</li> 
-              <li> date</li> 
-              <li> vibration</li> 
-              <li> batterie</li> 
-              <li> latence</li>              
+              <li id="current_time"><span id="hours"></span><span id="minutes"></span><span id="seconds"></span></li> 
+              <li id="current_date"></li> 
+              <li id="vibration"> vibration</li> 
+              <li id="battery_level"></li> 
+              <li id="latency"> latence</li>              
             </ul> 
         </nav>
         <div id="br-os-apps">
@@ -85,9 +85,58 @@
           </form>
           
     </div>
+
+    <!-- Paremeters app -->
     <div class="app-hide" id="settings-content">
         <p>settings</p>
+        <br>
+
+        <!-- LATENCY -->
+        <label for="input_latency">
+            <input type="checkbox" id="input_latency" onclick="ShowHideDiv('latency', this)">  afficher/masquer la latence réseau
+        </label><br>
+
+        <!-- CURRENT TIME -->
+        <label for="input_current_time">
+            <input type="checkbox" id="input_current_time" onclick="ShowHideDiv('current_time', this)">  afficher/masquer l'heure
+        </label><br>
+        <label for="input_hours">
+            <input type="checkbox" id="input_hours" onclick="ShowHideDiv('hours', this)">  afficher/masquer l'heure
+        </label><br>
+        <label for="input_minutes">
+            <input type="checkbox" id="input_minutes" onclick="ShowHideDiv('minutes', this)">  afficher/masquer les minutes
+        </label><br>
+        <label for="input_seconds">
+            <input type="checkbox" id="input_seconds" onclick="ShowHideDiv('seconds', this)">  afficher/masquer les secondes
+        </label><br>
+
+        <!-- CURRENT TIME -->
+        <label for="input_current_date">
+            <input type="checkbox" id="input_current_date" onclick="ShowHideDiv('current_date', this)">  afficher/masquer la date
+        </label><br>
+        <label for="input_hours">
+            <input type="checkbox" id="input_hours" onclick="ShowHideDiv('hours', this)">  afficher/masquer l'heure
+        </label><br>
+        <label for="input_minutes">
+            <input type="checkbox" id="input_minutes" onclick="ShowHideDiv('minutes', this)">  afficher/masquer les minutes
+        </label><br>
+        <label for="input_seconds">
+            <input type="checkbox" id="input_seconds" onclick="ShowHideDiv('seconds', this)">  afficher/masquer les secondes
+        </label><br>
+
+        <!-- VIBRATION -->
+        <label for="input_vibration">
+            <input type="checkbox" id="input_vibration" onclick="ShowHideDiv('vibration', this)">   afficher/masquer l’état de la vibration
+        </label><br>
+
+        <!-- BATTERY LEVEL -->
+        <label for="input_battery_level">
+            <input type="checkbox" id="input_battery_level" onclick="ShowHideDiv('battery_level', this)">   afficher/masquer l’état de la batterie
+        </label><br>
+
+        <button type="button" id="save" onclick="save()">Sauvegarder</button>
     </div>
+
     <div class="app-hide" id="system-info-content">
         <p>system-info</p>
     </div>

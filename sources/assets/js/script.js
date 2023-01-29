@@ -47,6 +47,7 @@ function create_app (name, image, id, id_content) {
 
 function open (tag) {
     tag.style.display = "inline-block"
+    local_storage_values();
 }
 
 function close (tag) {
@@ -140,3 +141,161 @@ os_window.ondragend = e => {
     os_window.style.top = go_top + "px"
     os_window.style.left = go_left + "px"
 }
+
+/* App Settings */
+// current time
+function current_time () {
+    var date = new Date();
+    var hours = date.getHours() + ":";
+    var minutes = date.getMinutes() + ":";
+    var seconds = date.getSeconds();
+    document.getElementById("hours").innerHTML = hours;
+    document.getElementById("minutes").innerHTML = minutes;
+    document.getElementById("seconds").innerHTML = seconds;
+}
+current_time()
+
+// current date
+function current_date (id) {
+    var date = new Date();
+    var current_date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    document.getElementById(id).innerHTML = current_date;
+}
+current_date("current_date")
+
+// battery level
+function battery_level (id) {
+    navigator.getBattery().then(battery => {
+      let m = ""
+      m = battery.level * 100 + "%"
+  
+      if (battery.charging) {
+        m += " ⚡";
+      }
+      document.getElementById(id).innerHTML = m;
+    })
+}
+battery_level("battery_level")
+
+// vibration
+if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+  // true for mobile device
+  console.log("mobile device");
+}else{
+  // false for not mobile device
+  console.log("not mobile device");
+}
+window.navigator.vibrate(200); // vibre pendant 200ms
+
+// latency
+function latency (id) {
+    document.getElementById(id).innerHTML = window.performance.now().toFixed(2) + " ms";
+}
+latency("latency")
+
+// show/hide div
+function ShowHideDiv(id, element) {
+    var dvElement = document.getElementById(id);
+    dvElement.style.display = element.checked ? "none" : "inline";
+}
+
+// Save data in localstorage
+function save() {
+    localStorage.setItem("input_latency", document.getElementById("input_latency").checked);
+    localStorage.setItem("input_current_time", document.getElementById("input_current_time").checked);
+    localStorage.setItem("input_hours", document.getElementById("input_hours").checked);
+    localStorage.setItem("input_minutes", document.getElementById("input_minutes").checked);
+    localStorage.setItem("input_seconds", document.getElementById("input_seconds").checked);
+    localStorage.setItem("input_current_date", document.getElementById("input_current_date").checked);
+    localStorage.setItem("input_vibration", document.getElementById("input_vibration").checked);
+    localStorage.setItem("input_battery_level", document.getElementById("input_battery_level").checked);
+}
+
+// To set check or uncheck checkboxes
+function local_storage_values() {
+    document.getElementById("input_latency").checked = JSON.parse(localStorage.getItem("input_latency"));
+    document.getElementById("input_current_time").checked = JSON.parse(localStorage.getItem("input_current_time"));
+    document.getElementById("input_hours").checked = JSON.parse(localStorage.getItem("input_hours"));
+    document.getElementById("input_minutes").checked = JSON.parse(localStorage.getItem("input_minutes"));
+    document.getElementById("input_seconds").checked = JSON.parse(localStorage.getItem("input_seconds"));
+    document.getElementById("input_current_date").checked = JSON.parse(localStorage.getItem("input_current_date"));
+    document.getElementById("input_vibration").checked = JSON.parse(localStorage.getItem("input_vibration"));
+    document.getElementById("input_battery_level").checked = JSON.parse(localStorage.getItem("input_battery_level"));
+}
+
+// Display saved data
+function savedData() {
+    // Latency
+    if (JSON.parse(localStorage.getItem("input_latency")) === true) {
+        document.getElementById("latency").style.display = "none";
+        console.log("true");
+    } else {
+        document.getElementById("latency").style.display = "inline";
+        console.log("false");
+    }
+
+    // Current time
+    if (JSON.parse(localStorage.getItem("input_current_time")) === true) {
+        document.getElementById("current_time").style.display = "none";
+        console.log("true");
+    } else {
+        document.getElementById("current_time").style.display = "inline";
+        console.log("false");
+    }
+    // Hours
+    if (JSON.parse(localStorage.getItem("input_hours")) === true) {
+        document.getElementById("hours").style.display = "none";
+        console.log("true");
+    } else {
+        document.getElementById("hours").style.display = "inline";
+        console.log("false");
+    }
+    // Minutes
+    if (JSON.parse(localStorage.getItem("input_minutes")) === true) {
+        document.getElementById("minutes").style.display = "none";
+        console.log("true");
+    } else {
+        document.getElementById("minutes").style.display = "inline";
+        console.log("false");
+    }
+    // Seconds
+    if (JSON.parse(localStorage.getItem("input_seconds")) === true) {
+        document.getElementById("seconds").style.display = "none";
+        console.log("true");
+    } else {
+        document.getElementById("seconds").style.display = "inline";
+        console.log("false");
+    }
+
+    // Current date
+    if (JSON.parse(localStorage.getItem("input_current_date")) === true) {
+        document.getElementById("current_date").style.display = "none";
+        console.log("true");
+    } else {
+        document.getElementById("current_date").style.display = "inline";
+        console.log("false");
+    }
+
+    // Vibration
+    if (JSON.parse(localStorage.getItem("input_vibration")) === true) {
+        document.getElementById("vibration").style.display = "none";
+        console.log("true");
+    } else {
+        document.getElementById("vibration").style.display = "inline";
+        console.log("false");
+    }
+
+    // Battery level
+    if (JSON.parse(localStorage.getItem("input_battery_level")) === true) {
+        document.getElementById("battery_level").style.display = "none";
+        console.log("true");
+    } else {
+        document.getElementById("battery_level").style.display = "inline";
+        console.log("false");
+    }
+}
+
+savedData();
+
+//localStorage.removeItem('input_latency');
+//console.log(JSON.parse(localStorage.getItem("input_latency")));
