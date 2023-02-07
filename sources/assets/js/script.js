@@ -190,14 +190,26 @@ current_date("current_date")
 // battery level
 function battery_level (id) {
     navigator.getBattery().then(battery => {
-      let m = ""
-      m = battery.level * 100 + "%"
-  
-      if (battery.charging) {
-        m += " ⚡";
-      }
-      document.getElementById(id).innerHTML = m;
+        let m = ""
+        m = battery.level * 100 + "%"
+    
+        if (battery.charging) {
+            m += " ⚡";
+        }
+        document.getElementById(id).innerHTML = m;
     })
+    
+    setInterval(() => {
+        navigator.getBattery().then(battery => {
+            let m = ""
+            m = battery.level * 100 + "%"
+        
+            if (battery.charging) {
+                m += " ⚡";
+            }
+            document.getElementById(id).innerHTML = m;
+        })
+    }, 1000);
 }
 battery_level("battery_level")
 
@@ -211,34 +223,69 @@ function vibrationState(id) {
 }
 vibrationState("vibration")
 
-function vivrationOn() {
+function vibrationOn() {
     window.navigator.vibrate([200, 100, 200]);
     localStorage.setItem("vibrationEnabled", true);
+    document.getElementById("vibration").innerHTML = "Activé";
     document.getElementById("vibrate-on").disabled = true;
     document.getElementById("vibrate-off").disabled = false;
 }
 
-function vivrationOff() {
+function vibrationOff() {
     window.navigator.vibrate(0);
     localStorage.setItem("vibrationEnabled", false);
+    document.getElementById("vibration").innerHTML = "Désactivé";  
     document.getElementById("vibrate-on").disabled = false;
     document.getElementById("vibrate-off").disabled = true;
 };
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-  // true for mobile device
-  console.log("mobile device");
+    // true for mobile device
+    console.log("mobile device");
 }else{
-  // false for not mobile device
-  console.log("not mobile device");
+    // false for not mobile device
+    console.log("not mobile device");
 }
 window.navigator.vibrate(200); // vibre pendant 200ms
 
 // Latency
-function latency (id) {
-    document.getElementById(id).innerHTML = window.performance.now().toFixed(2) + " ms";
+function latency(id) {
+    let startTime = new Date();
+    let url = localStorage.getItem("url_latency");
+
+    if (url == null) {
+        // changer cette url avec l'url de notre serveur
+        url = 'https://example.com';
+    } else {
+        url = JSON.parse(url);
+    }
+
+    fetch(url, {mode: 'no-cors'})
+    .then(response => response.text())
+    .then(data => {
+        let endTime = new Date();
+        let latency = endTime - startTime;
+        document.getElementById(id).innerHTML = latency + " ms";
+        console.log(url);
+    })
+    .catch(error => console.error(error));
 }
 latency("latency")
+
+function measureLatency() {
+    let url = document.getElementById('url-latency').value;
+    let startTime = new Date();
+  
+    fetch(url, {mode: 'no-cors'})
+    .then(response => response.text())
+    .then(data => {
+        let endTime = new Date();
+        let latency = endTime - startTime;
+        document.getElementById('latency').innerHTML = latency + " ms";
+        localStorage.setItem("url_latency", JSON.stringify(url));
+    })
+    .catch(error => console.error(error));
+}
 
 // show/hide div
 function ShowHideDiv(id, element) {
@@ -261,7 +308,7 @@ function save() {
     localStorage.setItem("input_battery_level", document.getElementById("input_battery_level").checked);
 }
 
-// To set check or uncheck checkboxes
+// Show saved data
 function local_storage_values() {
     document.getElementById("input_latency").checked = JSON.parse(localStorage.getItem("input_latency"));
     document.getElementById("input_current_time").checked = JSON.parse(localStorage.getItem("input_current_time"));
@@ -280,6 +327,22 @@ function local_storage_values() {
     } else {
         document.getElementById("vibrate-on").disabled = false;
         document.getElementById("vibrate-off").disabled = true;
+    }
+
+    if (JSON.parse(localStorage.getItem("themeMode")) === true) {
+        document.getElementById("light-mode").disabled = true;
+        document.getElementById("dark-mode").disabled = false;
+        document.querySelector(".br-os-window .app").style.background = "white";
+        document.querySelector(".br-os-window .app").style.color = "black";
+    } else {
+        document.getElementById("light-mode").disabled = false;
+        document.getElementById("dark-mode").disabled = true;
+        document.querySelector(".br-os-window .app").style.background = "dimgray";
+        document.querySelector(".br-os-window .app").style.color = "white";
+    }
+
+    if (JSON.parse(localStorage.getItem("url_latency")) != null) {
+        document.getElementById('url-latency').value = JSON.parse(localStorage.getItem("url_latency"));
     }
 }
 
@@ -382,7 +445,6 @@ function savedData() {
 savedData();
 
 // Verrouiller son écran et déverrouiller
-
 let password = "secret";
 let isLocked = false;
 
@@ -401,5 +463,22 @@ function unlockScreen() {
     }
 };
 
+// Mode thème light/dark pour toutes les applications
+function lightMode() {
+    localStorage.setItem("themeMode", true);
+    document.getElementById("light-mode").disabled = true;
+    document.getElementById("dark-mode").disabled = false;
+    document.querySelector(".br-os-window .app").style.background = "white";
+    document.querySelector(".br-os-window .app").style.color = "black";
+}
+
+function darkMode() {
+    localStorage.setItem("themeMode", false);
+    document.getElementById("light-mode").disabled = false;
+    document.getElementById("dark-mode").disabled = true;
+    document.querySelector(".br-os-window .app").style.background = "dimgray";
+    document.querySelector(".br-os-window .app").style.color = "white";
+};
+
 //localStorage.removeItem('input_latency');
-//console.log(JSON.parse(localStorage.getItem("input_latency")));
+//console.log(JSON.parse(localStorage.getItem("themeMode")));

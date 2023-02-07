@@ -127,8 +127,8 @@
         <!-- VIBRATION -->
         <label for="input_vibration">
             <input type="checkbox" id="input_vibration" onclick="ShowHideDiv('vibration', this)">   afficher/masquer l’état de la vibration
-            <button id="vibrate-on" onclick="vivrationOn()">Activer les vibrations</button>
-            <button id="vibrate-off" onclick="vivrationOff()">Désactiver les vibrations</button>
+            <button id="vibrate-on" onclick="vibrationOn()">Activer les vibrations</button>
+            <button id="vibrate-off" onclick="vibrationOff()">Désactiver les vibrations</button>
         </label><br>
 
         <!-- BATTERY LEVEL -->
@@ -136,8 +136,19 @@
             <input type="checkbox" id="input_battery_level" onclick="ShowHideDiv('battery_level', this)">   afficher/masquer l’état de la batterie
         </label><br>
 
-        <button type="button" id="save" onclick="save()">Sauvegarder</button><br>
+        <!-- LIGHT/DARK MODE -->
+        <label for="input_theme_mode">
+            <button id="light-mode" onclick="lightMode()">Light mode</button>
+            <button id="dark-mode" onclick="darkMode()">Dark mode</button>
+        </label><br>
 
+        <button type="button" id="save" onclick="save()">Sauvegarder</button><br>
+        
+        <!-- CHOOSE URL TO MEASURE LATENCY -->
+        <input type="text" id="url-latency">
+        <button onclick="measureLatency()">Mesurer la latence réseau</button>
+
+        <!-- LOCK/UNLOCK SCREEN -->
         <button onclick="lockScreen()">Verrouiller l'écran</button>
     </div>
 
