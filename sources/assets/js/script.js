@@ -47,7 +47,6 @@ function create_app (name, image, id, id_content) {
 
 function open (tag) {
     tag.style.display = "inline-block"
-    local_storage_values();
 }
 
 function close (tag) {
@@ -72,6 +71,8 @@ function window_open (id, id_content) {
     brand_window.appendChild(p)
 
     open(os_window)
+    local_storage_values();
+    callTictactoe();
 }
 
 function init_window() {
@@ -224,7 +225,6 @@ function vibrationState(id) {
 vibrationState("vibration")
 
 function vibrationOn() {
-    window.navigator.vibrate([200, 100, 200]);
     localStorage.setItem("vibrationEnabled", true);
     document.getElementById("vibration").innerHTML = "Activé";
     document.getElementById("vibrate-on").disabled = true;
@@ -232,12 +232,26 @@ function vibrationOn() {
 }
 
 function vibrationOff() {
-    window.navigator.vibrate(0);
     localStorage.setItem("vibrationEnabled", false);
     document.getElementById("vibration").innerHTML = "Désactivé";  
     document.getElementById("vibrate-on").disabled = false;
     document.getElementById("vibrate-off").disabled = true;
 };
+
+function vibrate() {
+    if (JSON.parse(localStorage.getItem("vibrationEnabled")) === true) {
+        window.navigator.vibrate([200, 100, 200]);
+    } else {
+        window.navigator.vibrate(0);
+    }
+}
+
+var buttons = document.querySelectorAll("button");
+for (var i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener("click", function() {
+    vibrate();
+  });
+}
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
     // true for mobile device
@@ -250,27 +264,51 @@ window.navigator.vibrate(200); // vibre pendant 200ms
 
 // Latency
 function latency(id) {
-    let startTime = new Date();
-    let url = localStorage.getItem("url_latency");
+    if (JSON.parse(localStorage.getItem("input_refresh_latency_seconds")) === true) {
+        setInterval(() => {
+            let startTime = new Date();
+            let url = localStorage.getItem("url_latency");
 
-    if (url == null) {
-        // changer cette url avec l'url de notre serveur
-        url = 'https://example.com';
-    } else {
-        url = JSON.parse(url);
+            if (url == null) {
+                // changer cette url avec l'url de notre serveur
+                url = 'https://example.com';
+            } else {
+                url = JSON.parse(url);
+            }
+
+            fetch(url, {mode: 'no-cors'})
+            .then(response => response.text())
+            .then(data => {
+                let endTime = new Date();
+                let latency = endTime - startTime;
+                document.getElementById(id).innerHTML = latency + " ms";
+                console.log(url);
+            })
+            .catch(error => console.error(error));
+        }, 1000);
+    } else{
+        let startTime = new Date();
+        let url = localStorage.getItem("url_latency");
+
+        if (url == null) {
+            // changer cette url avec l'url de notre serveur
+            url = 'https://example.com';
+        } else {
+            url = JSON.parse(url);
+        }
+
+        fetch(url, {mode: 'no-cors'})
+        .then(response => response.text())
+        .then(data => {
+            let endTime = new Date();
+            let latency = endTime - startTime;
+            document.getElementById(id).innerHTML = latency + " ms";
+            console.log(url);
+        })
+        .catch(error => console.error(error));
     }
-
-    fetch(url, {mode: 'no-cors'})
-    .then(response => response.text())
-    .then(data => {
-        let endTime = new Date();
-        let latency = endTime - startTime;
-        document.getElementById(id).innerHTML = latency + " ms";
-        console.log(url);
-    })
-    .catch(error => console.error(error));
 }
-latency("latency")
+latency("latency");
 
 function measureLatency() {
     let url = document.getElementById('url-latency').value;
@@ -306,6 +344,7 @@ function save() {
     localStorage.setItem("input_year", document.getElementById("input_year").checked);
     localStorage.setItem("input_vibration", document.getElementById("input_vibration").checked);
     localStorage.setItem("input_battery_level", document.getElementById("input_battery_level").checked);
+    localStorage.setItem("input_refresh_latency_seconds", document.getElementById("input_refresh_latency_seconds").checked);
 }
 
 // Show saved data
@@ -321,6 +360,7 @@ function local_storage_values() {
     document.getElementById("input_year").checked = JSON.parse(localStorage.getItem("input_year"));
     document.getElementById("input_vibration").checked = JSON.parse(localStorage.getItem("input_vibration"));
     document.getElementById("input_battery_level").checked = JSON.parse(localStorage.getItem("input_battery_level"));
+    document.getElementById("input_refresh_latency_seconds").checked = JSON.parse(localStorage.getItem("input_refresh_latency_seconds"));
     if (JSON.parse(localStorage.getItem("vibrationEnabled")) === true) {
         document.getElementById("vibrate-on").disabled = true;
         document.getElementById("vibrate-off").disabled = false;
@@ -480,5 +520,110 @@ function darkMode() {
     document.querySelector(".br-os-window .app").style.color = "white";
 };
 
-//localStorage.removeItem('input_latency');
-//console.log(JSON.parse(localStorage.getItem("themeMode")));
+function callTictactoe() {
+    //Tic Tac Toe
+    const allCells = document.querySelectorAll('[data-cell]');
+    const scoreP1 = document.getElementById('scoreP1');
+    const scoreP2 = document.getElementById('scoreP2');
+    const scoreTie = document.getElementById('scoreTie');
+    const board = document.getElementById('board')
+    const restartButton = document.getElementById('restart')
+    const winningCombi = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+    ]
+    const o_class = 'o';
+    const x_class = 'x';
+    let o_turn;
+
+    startGame();
+    restartButton.addEventListener('click', restartGame);
+
+    function restartGame() {
+    scoreP1.innerText = 0;
+    scoreP2.innerText = 0;
+    scoreTie.innerText = 0;
+    startGame();
+    }
+
+    function startGame() {
+    o_turn = false;
+    allCells.forEach(cell => {
+        cell.classList.remove(o_class);
+        cell.classList.remove(x_class);
+        cell.removeEventListener('click', handleClick);
+        cell.addEventListener('click', handleClick, { once: true })
+    })
+    setBoardHoverClass();
+    }
+
+    function handleClick(e) {
+    const cell = e.target;
+    const currentClass = o_turn ? o_class : x_class;
+    //place mark
+    placeMark(cell, currentClass);
+    if (checkWin(currentClass)) {
+        endGame(false);
+    } else if (isDraw()) {
+        endGame(true);
+    } else {
+        //switch turns
+        swapTurns();
+        //set board hover class
+        setBoardHoverClass();
+    }
+    }
+
+    function endGame(draw) {
+    if (draw) {
+        scoreTie.innerText = parseInt(scoreTie.innerText) + 1;
+    } else {
+        if (o_turn) {
+        scoreP2.innerText = parseInt(scoreP2.innerText) + 1;
+        }
+        else {
+        scoreP1.innerText = parseInt(scoreP1.innerText) + 1;
+        }
+    }
+    startGame();
+    }
+
+    function isDraw() {
+    return [...allCells].every(cell => {
+        return cell.classList.contains(x_class) || cell.classList.contains(o_class)
+
+    })
+    }
+
+    function placeMark(cell, currentClass) {
+    cell.classList.add(currentClass);
+    }
+
+    function swapTurns() {
+    o_turn = !o_turn;
+    }
+
+    function setBoardHoverClass() {
+    board.classList.remove(x_class);
+    board.classList.remove(o_class);
+    if (o_turn) {
+        board.classList.add(o_class);
+    } else {
+        board.classList.add(x_class);
+    }
+    }
+
+    function checkWin(currentClass) {
+    return winningCombi.some(combination => {
+        return combination.every(i => {
+        return allCells[i].classList.contains(currentClass)
+        })
+    })
+    }
+}
