@@ -43,7 +43,7 @@
             <!-- Maximize, cross etc buttons -->
             <div class="buttons">
                 <!-- Maximize button -->
-                <button id="maximise" onclick="maximise_window()">
+                <button id="maximise">
                     <i class="fa fa-window-maximize"></i>
                 </button>
                 <!-- Window size restore button -->
@@ -68,8 +68,10 @@
     <div class="app-hide" id="file-manager-content">
         <p>file-manager</p>
     </div>
-    <div class="app-hide" id="recycle-bin-content">
-        <div class="tic-tac-toe" id="tictactoe">
+
+    <!-- TicTacToe app -->
+    <div class="app-hide" id="tictactoe-content">
+        <div class="tic-tac-toe">
             <!-- Restart -->
             <div class="restart" id="restart">
                 <i class="fas fa-redo-alt"></i>
@@ -200,6 +202,5 @@
         </uL>
     </nav>
     <script src="assets/js/script.js"></script>
-    <script src="assets/js/tictactoe.js"></script>
 </body>
 </html>

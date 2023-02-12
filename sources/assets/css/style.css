@@ -216,9 +216,7 @@ a {
     overflow: hidden;
 }
 
-#tictactoe {
-    width: 100vw;
-    height: 100vh;
+.tic-tac-toe {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -228,7 +226,7 @@ a {
     background-position: center;
 }
 
-#tictactoe .board {
+.tic-tac-toe .board {
     width: 100vw;
     height: 100vh;
     display: grid;
@@ -239,7 +237,7 @@ a {
     grid-template-columns: repeat(3, auto);
 }
 
-#tictactoe .board .cell {
+.tic-tac-toe .board .cell {
     width: var(--cell-size);   
     height: var(--cell-size);
     border: 2px solid white;
@@ -250,7 +248,7 @@ a {
     cursor: pointer;
 }
 
-#tictactoe .board .cell.x {
+.tic-tac-toe .board .cell.x {
     background: var(--cross);
     background-size: var(--mark-size);
     /* white glow */
@@ -260,7 +258,7 @@ a {
     cursor: not-allowed;
 }
 
-#tictactoe .board .cell.o {
+.tic-tac-toe .board .cell.o {
     background: var(--circle);
     background-size: var(--mark-size);
     filter: drop-shadow(0 0 10px red);
@@ -269,7 +267,7 @@ a {
     cursor: not-allowed;
 }
 
-#tictactoe .board.x .cell:hover:not(.x):not(.o) {
+.tic-tac-toe .board.x .cell:hover:not(.x):not(.o) {
     background: var(--cross);
     background-size: var(--mark-size);
     background-position: center;
@@ -278,7 +276,7 @@ a {
     cursor: pointer;
 }
 
-#tictactoe .board.o .cell:hover:not(.x):not(.o) {
+.tic-tac-toe .board.o .cell:hover:not(.x):not(.o) {
     background: var(--circle);
     background-size: var(--mark-size);
     background-position: center;
@@ -288,23 +286,23 @@ a {
 }
 
 
-#tictactoe .board .cell:first-child,
-#tictactoe .board .cell:nth-child(2),
-#tictactoe .board .cell:nth-child(3) {
+.tic-tac-toe .board .cell:first-child,
+.tic-tac-toe .board .cell:nth-child(2),
+.tic-tac-toe .board .cell:nth-child(3) {
     border-top: none;
 }
 
-#tictactoe .board .cell:nth-child(3n+1) {
+.tic-tac-toe .board .cell:nth-child(3n+1) {
     border-left: none;
 }
 
-#tictactoe .board .cell:nth-child(3n+3) {
+.tic-tac-toe .board .cell:nth-child(3n+3) {
     border-right: none;
 }
 
-#tictactoe .board .cell:last-child,
-#tictactoe .board .cell:nth-child(7),
-#tictactoe .board .cell:nth-child(8) {
+.tic-tac-toe .board .cell:last-child,
+.tic-tac-toe .board .cell:nth-child(7),
+.tic-tac-toe .board .cell:nth-child(8) {
     border-bottom: none;
 }
 
@@ -361,7 +359,7 @@ a {
     .score__player .score__player--name {
         font-size: 1rem;
     }
-    #tictactoe .score {
+    .tic-tac-toe .score {
         font-size: 1rem;
     }
     .tie .tie__name {

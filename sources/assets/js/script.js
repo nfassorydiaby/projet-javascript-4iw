@@ -19,7 +19,7 @@ const no = new Audio("assets/music/negative.wav")
 close(os_window)
 /* Creating apps */
 create_app("File manager", 'assets/images/apps/file-manager.png', "file-manager", "file-manager-content")
-create_app("Recycle bin", "assets/images/apps/recycle-bin.png", "recycle-bin", "recycle-bin-content")
+create_app("TicTacToe", "assets/images/apps/tictactoe.png", "tictactoe", "tictactoe-content")
 create_app ("Settings", "assets/images/apps/settings.png", "settings", "settings-content")
 create_app("System Info", "assets/images/apps/system-information.png", "system-info", "system-info-content")
 
@@ -101,6 +101,7 @@ function maximise_window () {
     os_window.style.left = 0
     os_window.style.width = "100%"
     os_window.style.height = "100vh"
+    console.log("max");
 }
 
 function shorter_window () {
@@ -110,6 +111,7 @@ function shorter_window () {
     os_window.style.left = window.restoreX
     os_window.style.width = "60%"
     os_window.style.height = "60vh"
+    console.log("short");
 }
 
 function open_menu (e, id) {
