@@ -181,6 +181,34 @@
         <p>system-info</p>
     </div>
 
+    <div class="app-hide" id="horloge-content">
+        Heure :
+        <div id="horloge_time"></div>
+        <hr>
+        Chronomètre :
+        <div id="wrapper">
+            <div id="chronometre">00:00:00</div>
+            <div id="chrono-step-list"></div>
+            <div id="chrono-buttons">
+                <button id="chrono-reset" class="button" onclick="reset_chrono()">Réinitialiser</button>
+                <button id="chrono-stop" class="button" onclick="stop_chrono()">Arrêter</button>
+                <button id="chrono-step" class="button" onclick="step_chrono()">Etape</button>
+                <button id="chrono-start" class="button" onclick="start_chrono()">Démarrer</button>
+            </div>
+        </div>
+        <hr>
+        Minuteur :
+        <div id="timer">
+            <input id="timer-input" type="time" min="00:00:00" max="23:59:59" value="00:00:00">
+        </div>
+        <div id="timer-buttons">
+<!--            <button id="timer-reset" class="button" onclick="reset_chrono()">Réinitialiser</button>-->
+<!--            <button id="timer-stop" class="button" onclick="stop_chrono()">Arrêter</button>-->
+            <button id="timer-start" class="button" onclick="timer()">Démarrer</button>
+        </div>
+<!--        <p>horloge-info</p>-->
+    </div>
+
     <div class="overlay" id="overlay" style="display: none;">
         <div>
           <h1>Votre écran est verrouillé</h1>
