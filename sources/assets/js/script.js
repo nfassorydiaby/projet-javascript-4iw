@@ -188,40 +188,102 @@ horloge_time()
 
 function timer_refresh(){
     var t = 1000; // rafraîchissement en millisecondes
-    setTimeout('horloge_time()',t)
+    setTimeout('timer()',t)
 }
 
 function timer() {
 
-    var time = document.getElementById('timer-input').value;
-    var h = time.substr(0,2);
-    // time = document.getElementById('timer-input').value;
-    var m = time.substr(3,2);
-    // time = document.getElementById('timer-input').value;
-    var s = time.substr(6,2);
+    var h = document.getElementById('timer-hours-input').value;
+    var m = document.getElementById('timer-minutes-input').value;
+    var s = document.getElementById('timer-secondes-input').value;
 
-    var hours_timer = parseInt(h);
-    var minutes_timer = parseInt(m);
+    var hours_timer = parseInt(h) * 60 * 60;
+    var minutes_timer = parseInt(m) * 60;
     var secondes_timer = parseInt(s);
+    var all_seconds = hours_timer + minutes_timer + secondes_timer;
 
-    if (secondes_timer == 0) {
-        secondes_timer = 59;
-        minutes_timer = minutes_timer - 1;
-        if (minutes_timer == 0) {
-            minutes_timer = 59;
-            hours_timer = hours_timer - 1;
-            if (hours_timer == 0) {
-                hours_timer = 0;
-            }
+    all_seconds = all_seconds - 1;
+
+    // console.log(all_seconds);
+    if (all_seconds>=3600)
+    {
+        var heure = parseInt(all_seconds/3600);
+        if (heure < 10) {
+            heure = "0"+heure;
         }
-        else {
-            minutes_timer = minutes_timer - 1;
+        var reste = all_seconds%3600;
+
+        var minute = parseInt(reste/60);
+        if (minute < 10) {
+            minute = "0"+minute;
         }
+
+        var seconde = reste%60;
+        if (seconde < 10) {
+            seconde = "0"+seconde;
+        }
+// alert("ibjnklm")
+        // var result = heure+':'+minute+':'+seconde;
+        // alert(document.getElementById('timer-hours-input').value);
+        document.getElementById('timer-hours-input').value = heure;
+        // alert(document.getElementById('timer-hours-input').value);
+
+        document.getElementById('timer-minutes-input').value = minute;
+
+        document.getElementById('timer-secondes-input').value = seconde;
+        // alert(result);
+    }
+    else if (all_seconds<3600 && all_seconds>=60)
+    {
+        var heure = 0;
+        var minute = parseInt(all_seconds/60);
+        var seconde = all_seconds%60;
+        // var result = '00:'+minute+':'+seconde;
+
+        document.getElementById('timer-hours-input').value = heure;
+
+        document.getElementById('timer-minutes-input').value = minute;
+
+        document.getElementById('timer-secondes-input').value = seconde;
+
+    }
+    else if (all_seconds < 60 && all_seconds >= 0)
+    {
+
+        var heure = 0;
+        var minute = 0;
+        var seconde = all_seconds;
+        // var result = '00:'+minute+':'+seconde;
+
+        document.getElementById('timer-hours-input').value = heure;
+
+        document.getElementById('timer-minutes-input').value = minute;
+
+        document.getElementById('timer-secondes-input').value = seconde;
+    }
+
+    if (heure == 0 && minute == 0 && seconde == 0) {
+        alert("test")
     }
     else {
-        secondes_timer = secondes_timer - 1;
+        timer_refresh();
     }
-    // secondes_timer = secondes_timer - 1;
+
+    // return result;
+
+
+    // var new_timer = all_seconds - 60;
+    // console.log(new_timer);
+    // hours_timer = parseInt(new_timer / 3600);
+    // console.log(hours_timer);
+    //
+    // all_seconds = all_seconds - (new_timer / 3600 * hours_timer);
+    // console.log(all_seconds);
+    //
+    //
+    // minutes_timer = parseInt(all_seconds / 60);
+    // all_seconds = all_seconds - (all_seconds / 60);
+    // alert(minutes_timer);
 
 
     alert("h : "+ h+" m : "+m+" s : "+s);
@@ -231,6 +293,13 @@ function timer() {
     // var time = h + ':' + m + ':' + s
     // document.getElementById('horloge_time').innerHTML = time;
     // horloge_time_refresh();
+}
+
+function zero_on_input(name_class){
+    var inputVal = document.getElementById(name_class).value;
+    if(inputVal < 10) {
+        document.getElementById(name_class).value = "0"+inputVal;
+    }
 }
 
 //CHRONO

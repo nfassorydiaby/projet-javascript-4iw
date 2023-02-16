@@ -199,7 +199,9 @@
         <hr>
         Minuteur :
         <div id="timer">
-            <input id="timer-input" type="time" min="00:00:00" max="23:59:59" value="00:00:00">
+            <input id="timer-hours-input" style="width: 50px;" type="number" min="0" max="23" value="00" onchange="zero_on_input('timer-hours-input')">
+            <input id="timer-minutes-input" style="width: 50px;" type="number" min="0" max="59" value="00" onchange="zero_on_input('timer-minutes-input')">
+            <input id="timer-secondes-input" style="width: 50px;" type="number" min="0" max="59" value="00" onchange="zero_on_input('timer-secondes-input')">
         </div>
         <div id="timer-buttons">
 <!--            <button id="timer-reset" class="button" onclick="reset_chrono()">Réinitialiser</button>-->
