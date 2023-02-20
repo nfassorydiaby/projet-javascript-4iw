@@ -352,6 +352,8 @@ function save() {
     localStorage.setItem("input_vibration", document.getElementById("input_vibration").checked);
     localStorage.setItem("input_battery_level", document.getElementById("input_battery_level").checked);
     localStorage.setItem("input_refresh_latency_seconds", document.getElementById("input_refresh_latency_seconds").checked);
+
+    alert('Mise à jour')
 }
 
 // Show saved data
@@ -387,9 +389,21 @@ function local_storage_values() {
         document.querySelector(".br-os-window .app").style.background = "dimgray";
         document.querySelector(".br-os-window .app").style.color = "white";
     }
-
+    
     if (JSON.parse(localStorage.getItem("url_latency")) != null) {
         document.getElementById('url-latency').value = JSON.parse(localStorage.getItem("url_latency"));
+    }
+
+    if (JSON.parse(localStorage.getItem("draw_score")) != null) {
+        document.getElementById('draw-score').innerHTML = JSON.parse(localStorage.getItem("draw_score"));
+    }
+
+    if (JSON.parse(localStorage.getItem("player_two_score")) != null) {
+        document.getElementById('player-two-score').innerHTML = JSON.parse(localStorage.getItem("player_two_score"));
+    }
+
+    if (JSON.parse(localStorage.getItem("player_one_score")) != null) {
+        document.getElementById('player-one-score').innerHTML = JSON.parse(localStorage.getItem("player_one_score"));
     }
 }
 
@@ -532,20 +546,21 @@ function darkMode() {
 function callTictactoe() {
     //Tic Tac Toe
     const allCells = document.querySelectorAll('[data-cell]');
-    const scoreP1 = document.getElementById('scoreP1');
-    const scoreP2 = document.getElementById('scoreP2');
-    const scoreTie = document.getElementById('scoreTie');
+    const playerOneScrore = document.getElementById('player-one-score');
+    const playerTwoScrore = document.getElementById('player-two-score');
+    const drawScore = document.getElementById('draw-score');
     const board = document.getElementById('board')
     const restartButton = document.getElementById('restart')
+    const resetButton = document.getElementById('reset-score')
     const winningCombi = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
     ]
     const o_class = 'o';
     const x_class = 'x';
@@ -553,87 +568,96 @@ function callTictactoe() {
 
     startGame();
     restartButton.addEventListener('click', restartGame);
+    resetButton.addEventListener('click', resetScrore);
 
     function restartGame() {
-    scoreP1.innerText = 0;
-    scoreP2.innerText = 0;
-    scoreTie.innerText = 0;
-    startGame();
+        startGame();
+    }
+
+    function resetScrore() {
+        playerOneScrore.innerText = 0;
+        playerTwoScrore.innerText = 0;
+        drawScore.innerText = 0;
+        localStorage.setItem("draw_score", 0);
+        localStorage.setItem("player_two_score", 0);
+        localStorage.setItem("player_one_score", 0);
     }
 
     function startGame() {
-    o_turn = false;
-    allCells.forEach(cell => {
-        cell.classList.remove(o_class);
-        cell.classList.remove(x_class);
-        cell.removeEventListener('click', handleClick);
-        cell.addEventListener('click', handleClick, { once: true })
-    })
-    setBoardHoverClass();
+        o_turn = false;
+        allCells.forEach(cell => {
+            cell.classList.remove(o_class);
+            cell.classList.remove(x_class);
+            cell.removeEventListener('click', handleClick);
+            cell.addEventListener('click', handleClick, { once: true })
+        })
+        setBoardHoverClass();
     }
 
     function handleClick(e) {
-    const cell = e.target;
-    const currentClass = o_turn ? o_class : x_class;
-    //place mark
-    placeMark(cell, currentClass);
-    if (checkWin(currentClass)) {
-        endGame(false);
-    } else if (isDraw()) {
-        endGame(true);
-    } else {
-        //switch turns
-        swapTurns();
-        //set board hover class
-        setBoardHoverClass();
-    }
+        const cell = e.target;
+        const currentClass = o_turn ? o_class : x_class;
+        //place mark
+        placeMark(cell, currentClass);
+        if (checkWin(currentClass)) {
+            endGame(false);
+        } else if (isDraw()) {
+            endGame(true);
+        } else {
+            //switch turns
+            swapTurns();
+            //set board hover class
+            setBoardHoverClass();
+        }
     }
 
     function endGame(draw) {
-    if (draw) {
-        scoreTie.innerText = parseInt(scoreTie.innerText) + 1;
-    } else {
-        if (o_turn) {
-        scoreP2.innerText = parseInt(scoreP2.innerText) + 1;
+        if (draw) {
+            drawScore.innerText = parseInt(drawScore.innerText) + 1;
+            localStorage.setItem("draw_score", drawScore.innerText);
+        } else {
+            if (o_turn) {
+                playerTwoScrore.innerText = parseInt(playerTwoScrore.innerText) + 1;
+                localStorage.setItem("player_two_score", playerTwoScrore.innerText);
+            }
+            else {
+                playerOneScrore.innerText = parseInt(playerOneScrore.innerText) + 1;
+                localStorage.setItem("player_one_score", playerOneScrore.innerText);
+            }
         }
-        else {
-        scoreP1.innerText = parseInt(scoreP1.innerText) + 1;
-        }
-    }
-    startGame();
+        startGame();
     }
 
     function isDraw() {
-    return [...allCells].every(cell => {
-        return cell.classList.contains(x_class) || cell.classList.contains(o_class)
-
-    })
+        return [...allCells].every(cell => {
+            return cell.classList.contains(x_class) || cell.classList.contains(o_class)
+        })
     }
 
     function placeMark(cell, currentClass) {
-    cell.classList.add(currentClass);
+        cell.classList.add(currentClass);
     }
 
     function swapTurns() {
-    o_turn = !o_turn;
+        o_turn = !o_turn;
     }
 
     function setBoardHoverClass() {
-    board.classList.remove(x_class);
-    board.classList.remove(o_class);
-    if (o_turn) {
-        board.classList.add(o_class);
-    } else {
-        board.classList.add(x_class);
-    }
+        board.classList.remove(x_class);
+        board.classList.remove(o_class);
+        if (o_turn) {
+            board.classList.add(o_class);
+        } else {
+            board.classList.add(x_class);
+        }
     }
 
     function checkWin(currentClass) {
-    return winningCombi.some(combination => {
-        return combination.every(i => {
-        return allCells[i].classList.contains(currentClass)
+        return winningCombi.some(combination => {
+            return combination.every(i => {
+            return allCells[i].classList.contains(currentClass)
+            })
         })
-    })
     }
 }
 
