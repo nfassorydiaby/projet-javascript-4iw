@@ -18,10 +18,9 @@ const no = new Audio("assets/music/negative.wav")
 /* Reseting window */
 close(os_window)
 /* Creating apps */
-create_app("File manager", 'assets/images/apps/file-manager.png', "file-manager", "file-manager-content")
 create_app("TicTacToe", "assets/images/apps/tictactoe.png", "tictactoe", "tictactoe-content")
 create_app ("Settings", "assets/images/apps/settings.png", "settings", "settings-content")
-create_app("System Info", "assets/images/apps/system-information.png", "system-info", "system-info-content")
+create_app("Horloge", "assets/images/apps/horloge.png", "horloge", "horloge-content")
 
 //Functions
 
@@ -149,20 +148,26 @@ os_window.ondragend = e => {
 // current time
 function current_time () {
     var date = new Date();
-    var hours = date.getHours() + ":";
-    var minutes = date.getMinutes() + ":";
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
     var seconds = date.getSeconds();
-    document.getElementById("hours").innerHTML = hours;
-    document.getElementById("minutes").innerHTML = minutes;
+    if( hours < 10 ){ hours = '0' + hours; }
+    if( minutes < 10 ){ minutes = '0' + minutes; }
+    if( seconds < 10 ){ seconds = '0' + seconds; }
+    document.getElementById("hours").innerHTML = hours + ":";
+    document.getElementById("minutes").innerHTML = minutes + ":";
     document.getElementById("seconds").innerHTML = seconds;
 
     setInterval(() => {
         var date = new Date();
-        var hours = date.getHours() + ":";
-        var minutes = date.getMinutes() + ":";
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
         var seconds = date.getSeconds();
-        document.getElementById("hours").innerHTML = hours;
-        document.getElementById("minutes").innerHTML = minutes;
+        if( hours < 10 ){ hours = '0' + hours; }
+        if( minutes < 10 ){ minutes = '0' + minutes; }
+        if( seconds < 10 ){ seconds = '0' + seconds; }
+        document.getElementById("hours").innerHTML = hours + ":";
+        document.getElementById("minutes").innerHTML = minutes + ":";
         document.getElementById("seconds").innerHTML = seconds;
     }, 1000);
 }
@@ -522,6 +527,8 @@ function darkMode() {
     document.querySelector(".br-os-window .app").style.color = "white";
 };
 
+
+// TicTacToe
 function callTictactoe() {
     //Tic Tac Toe
     const allCells = document.querySelectorAll('[data-cell]');
@@ -628,4 +635,224 @@ function callTictactoe() {
         })
     })
     }
+}
+
+// Horloge
+function horloge_time_refresh(){
+    var t = 1000; // rafraîchissement en millisecondes
+    setTimeout('horloge_time()',t)
+}
+
+function horloge_time() {
+    setInterval(() => {
+        var date = new Date();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+        if( hours < 10 ){ hours = '0' + hours; }
+        if( minutes < 10 ){ minutes = '0' + minutes; }
+        if( seconds < 10 ){ seconds = '0' + seconds; }
+        var time = hours + ':' + minutes + ':' + seconds;
+        document.getElementById('horloge_time').innerHTML = time;
+    }, 1000);
+}
+horloge_time()
+
+function timer_refresh(){
+    var t = 1000; // rafraîchissement en millisecondes
+    setTimeout('timer()',t)
+}
+
+function timer() {
+
+    var h = document.getElementById('timer-hours-input').value;
+    var m = document.getElementById('timer-minutes-input').value;
+    var s = document.getElementById('timer-secondes-input').value;
+
+    var hours_timer = parseInt(h) * 60 * 60;
+    var minutes_timer = parseInt(m) * 60;
+    var secondes_timer = parseInt(s);
+    var all_seconds = hours_timer + minutes_timer + secondes_timer;
+
+    all_seconds = all_seconds - 1;
+
+    // console.log(all_seconds);
+    if (all_seconds>=3600)
+    {
+        var heure = parseInt(all_seconds/3600);
+        if (heure < 10) {
+            heure = "0"+heure;
+        }
+        var reste = all_seconds%3600;
+
+        var minute = parseInt(reste/60);
+        if (minute < 10) {
+            minute = "0"+minute;
+        }
+
+        var seconde = reste%60;
+        if (seconde < 10) {
+            seconde = "0"+seconde;
+        }
+        // alert("ibjnklm")
+        // var result = heure+':'+minute+':'+seconde;
+        // alert(document.getElementById('timer-hours-input').value);
+        document.getElementById('timer-hours-input').value = heure;
+        // alert(document.getElementById('timer-hours-input').value);
+
+        document.getElementById('timer-minutes-input').value = minute;
+
+        document.getElementById('timer-secondes-input').value = seconde;
+        // alert(result);
+    }
+    else if (all_seconds<3600 && all_seconds>=60)
+    {
+        var heure = 0;
+        var minute = parseInt(all_seconds/60);
+        var seconde = all_seconds%60;
+        // var result = '00:'+minute+':'+seconde;
+
+        document.getElementById('timer-hours-input').value = heure;
+
+        document.getElementById('timer-minutes-input').value = minute;
+
+        document.getElementById('timer-secondes-input').value = seconde;
+
+    }
+    else if (all_seconds < 60 && all_seconds >= 0)
+    {
+
+        var heure = 0;
+        var minute = 0;
+        var seconde = all_seconds;
+        // var result = '00:'+minute+':'+seconde;
+
+        document.getElementById('timer-hours-input').value = heure;
+
+        document.getElementById('timer-minutes-input').value = minute;
+
+        document.getElementById('timer-secondes-input').value = seconde;
+    }
+
+    if (heure == 0 && minute == 0 && seconde == 0) {
+        click.play()
+    }
+    else {
+        timer_refresh();
+    }
+
+    // return result;
+
+
+    // var new_timer = all_seconds - 60;
+    // console.log(new_timer);
+    // hours_timer = parseInt(new_timer / 3600);
+    // console.log(hours_timer);
+    //
+    // all_seconds = all_seconds - (new_timer / 3600 * hours_timer);
+    // console.log(all_seconds);
+    //
+    //
+    // minutes_timer = parseInt(all_seconds / 60);
+    // all_seconds = all_seconds - (all_seconds / 60);
+    // alert(minutes_timer);
+
+    // if( h < 10 ){ h = '0' + h; }
+    // if( m < 10 ){ m = '0' + m; }
+    // if( s < 10 ){ s = '0' + s; }
+    // var time = h + ':' + m + ':' + s
+    // document.getElementById('horloge_time').innerHTML = time;
+    // horloge_time_refresh();
+}
+
+function zero_on_input(name_class){
+    var inputVal = document.getElementById(name_class).value;
+    if(inputVal < 10) {
+        document.getElementById(name_class).value = "0"+inputVal;
+    }
+}
+
+//CHRONO
+
+var hoursChrono = 0;
+var minutesChrono = 0;
+var secondsChrono = 0;
+var stepChrono = [];
+var timeoutChrono;
+
+var isStoppedChrono = true;
+
+function start_chrono() {
+
+    if (isStoppedChrono) {
+        isStoppedChrono = false;
+        defilerTemps();
+    }
+}
+
+function step_chrono() {
+
+    if (!isStoppedChrono) {
+        document.getElementById('chrono-step-list').innerHTML = "";
+        stepChrono.push(`${hoursChrono}:${minutesChrono}:${secondsChrono}<br>`);
+        stepChrono.reverse();
+        let listStepChrono = "";
+        stepChrono.forEach(element => document.getElementById('chrono-step-list').innerHTML += element);
+        document.getElementById('chrono-step-list').innerHTML += element
+    }
+}
+
+function stop_chrono() {
+    if (!isStoppedChrono) {
+        isStoppedChrono = true;
+        clearTimeout(timeoutChrono);
+    }
+}
+
+function defilerTemps() {
+    if (isStoppedChrono) return;
+
+    secondsChrono = parseInt(secondsChrono);
+    minutesChrono = parseInt(minutesChrono);
+    hoursChrono = parseInt(hoursChrono);
+
+    secondsChrono++;
+
+    if (secondsChrono == 60) {
+        minutesChrono++;
+        secondsChrono = 0;
+    }
+
+    if (minutesChrono == 60) {
+        hoursChrono++;
+        minutesChrono = 0;
+    }
+
+    //   affichage
+    if (secondsChrono < 10) {
+        secondsChrono = "0" + secondsChrono;
+    }
+
+    if (minutesChrono < 10) {
+        minutesChrono = "0" + minutesChrono;
+    }
+
+    if (hoursChrono < 10) {
+        hoursChrono = "0" + hoursChrono;
+    }
+    document.getElementById('chronometre').innerHTML = `${hoursChrono}:${minutesChrono}:${secondsChrono}`;
+
+
+    timeoutChrono = setTimeout(defilerTemps, 1000);
+}
+
+function reset_chrono() {
+    document.getElementById('chronometre').innerHTML = "00:00:00";
+    stepChrono = [];
+    document.getElementById('chrono-step-list').innerHTML = "";
+    isStoppedChrono = true;
+    hoursChrono = 0;
+    minutesChrono = 0;
+    secondsChrono = 0;
+    clearTimeout(timeoutChrono);
 }
