@@ -62,9 +62,6 @@
         </div>
     </div>
 
-    <!-- Hide App -->
-    <div id="app-hide"></div>
-
     <!-- TicTacToe app -->
     <div class="app-hide" id="tictactoe-content">
         <div class="tic-tac-toe">
@@ -109,7 +106,7 @@
         </div>
     </div>
 
-    <!-- Paremeters app -->
+    <!-- Settings app -->
     <div class="app-hide" id="settings-content">
         <div id="form-wrap">
             <div class="container">
@@ -188,6 +185,35 @@
         </div>
     </div>
 
+    <!-- Calculatrice app -->
+    <div class="app-hide" id="calculatrice-content">
+        <div class="calculatrice">
+            <div class="ecran"></div>
+            <div class="touches">
+                <button data-key="8" class="button">C</button>
+                <button data-key="53" class="button">(</button>
+                <button data-key="219" class="button">)</button>
+                <button data-key="111" class="button">/</button>
+                <button data-key="103" class="button">7</button>
+                <button data-key="104" class="button">8</button>
+                <button data-key="105" class="button">9</button>
+                <button data-key="106" class="button">*</button>
+                <button data-key="100" class="button">4</button>
+                <button data-key="101" class="button">5</button>
+                <button data-key="102" class="button">6</button>
+                <button data-key="109" class="button">-</button>
+                <button data-key="97" class="button">1</button>
+                <button data-key="98" class="button">2</button>
+                <button data-key="99" class="button">3</button>
+                <button data-key="107" class="button">+</button>
+                <button data-key="96" class="button">0</button>
+                <button data-key="110" class="button">.</button>
+                <button data-key="13" class="button">=</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Horloge app -->
     <div class="app-hide" id="horloge-content">
         Heure :
         <div id="horloge_time"></div>
@@ -197,10 +223,10 @@
             <div id="chronometre">00:00:00</div>
             <div id="chrono-step-list"></div>
             <div id="chrono-buttons">
-                <button id="chrono-reset" class="button" onclick="reset_chrono()">Réinitialiser</button>
-                <button id="chrono-stop" class="button" onclick="stop_chrono()">Arrêter</button>
-                <button id="chrono-step" class="button" onclick="step_chrono()">Etape</button>
-                <button id="chrono-start" class="button" onclick="start_chrono()">Démarrer</button>
+                <button id="chrono-reset" onclick="reset_chrono()">Réinitialiser</button>
+                <button id="chrono-stop" onclick="stop_chrono()">Arrêter</button>
+                <button id="chrono-step" onclick="step_chrono()">Etape</button>
+                <button id="chrono-start" onclick="start_chrono()">Démarrer</button>
             </div>
         </div>
         <hr>
@@ -213,7 +239,7 @@
         <div id="timer-buttons">
             <!-- <button id="timer-reset" class="button" onclick="reset_chrono()">Réinitialiser</button> -->
             <!-- <button id="timer-stop" class="button" onclick="stop_chrono()">Arrêter</button> -->
-            <button id="timer-start" class="button" onclick="timer()">Démarrer</button>
+            <button id="timer-start" onclick="timer()">Démarrer</button>
         </div>
         <!-- <p>horloge-info</p>-->
     </div>

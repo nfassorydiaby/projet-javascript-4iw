@@ -21,6 +21,7 @@ close(os_window)
 create_app("TicTacToe", "assets/images/apps/tictactoe.png", "tictactoe", "tictactoe-content")
 create_app ("Settings", "assets/images/apps/settings.png", "settings", "settings-content")
 create_app("Horloge", "assets/images/apps/horloge.png", "horloge", "horloge-content")
+create_app("Calculatrice", "assets/images/apps/calculatrice.png", "calculatrice", "calculatrice-content")
 
 //Functions
 
@@ -72,6 +73,7 @@ function window_open (id, id_content) {
     open(os_window)
     local_storage_values();
     callTictactoe();
+    callCalculatrice();
 }
 
 function init_window() {
@@ -658,6 +660,47 @@ function callTictactoe() {
             return allCells[i].classList.contains(currentClass)
             })
         })
+    }
+}
+
+// Calculatrice
+function callCalculatrice() {
+    // DOM
+    const touches = [...document.querySelectorAll('.button')];
+    const listKeycode = touches.map(touch => touch.dataset.key);
+    const ecran = document.querySelector('.ecran');
+
+    document.addEventListener('keydown', (e) => {
+        const value = e.key.toString();
+    });
+
+    document.addEventListener('click', (e) => {
+        const value = e.target.dataset.key;
+        calculer(value);    
+    });
+
+    let total = 0;
+    let result = 0;
+    let previousResults = [];
+
+    const calculer = (value) => {
+        if (listKeycode.includes(value)) {
+            switch(value) {
+                case '8':
+                    ecran.textContent = "";
+                    result = 0;
+                    break;
+                case '13':
+                    total += result;
+                    const calcul = eval(ecran.textContent);
+                    ecran.textContent = calcul;
+                    break;
+                default:
+                    const indexKeycode = listKeycode.indexOf(value);
+                    const touche = touches[indexKeycode];
+                    ecran.textContent += touche.innerHTML;
+            }  
+        } 
     }
 }
 
