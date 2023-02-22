@@ -186,12 +186,7 @@ function horloge_time() {
 }
 horloge_time()
 
-function timer_refresh(){
-    var t = 1000; // rafraîchissement en millisecondes
-    setTimeout('timer()',t)
-}
-
-function timer() {
+function start_timer() {
 
     var h = document.getElementById('timer-hours-input').value;
     var m = document.getElementById('timer-minutes-input').value;
@@ -222,23 +217,29 @@ function timer() {
         if (seconde < 10) {
             seconde = "0"+seconde;
         }
-// alert("ibjnklm")
-        // var result = heure+':'+minute+':'+seconde;
-        // alert(document.getElementById('timer-hours-input').value);
         document.getElementById('timer-hours-input').value = heure;
-        // alert(document.getElementById('timer-hours-input').value);
 
         document.getElementById('timer-minutes-input').value = minute;
 
         document.getElementById('timer-secondes-input').value = seconde;
-        // alert(result);
     }
     else if (all_seconds<3600 && all_seconds>=60)
     {
         var heure = 0;
         var minute = parseInt(all_seconds/60);
         var seconde = all_seconds%60;
-        // var result = '00:'+minute+':'+seconde;
+
+        if (heure < 10) {
+            heure = "0"+heure;
+        }
+
+        if (minute < 10) {
+            minute = "0"+minute;
+        }
+
+        if (seconde < 10) {
+            seconde = "0"+seconde;
+        }
 
         document.getElementById('timer-hours-input').value = heure;
 
@@ -253,8 +254,18 @@ function timer() {
         var heure = 0;
         var minute = 0;
         var seconde = all_seconds;
-        // var result = '00:'+minute+':'+seconde;
 
+        if (heure < 10) {
+            heure = "0"+heure;
+        }
+
+        if (minute < 10) {
+            minute = "0"+minute;
+        }
+
+        if (seconde < 10) {
+            seconde = "0"+seconde;
+        }
         document.getElementById('timer-hours-input').value = heure;
 
         document.getElementById('timer-minutes-input').value = minute;
@@ -263,36 +274,27 @@ function timer() {
     }
 
     if (heure == 0 && minute == 0 && seconde == 0) {
+        con.play();
+
         alert("test")
     }
     else {
-        timer_refresh();
+        timeoutTimer = setTimeout(start_timer, 1000);
     }
+}
 
-    // return result;
+function stop_timer() {
+    clearTimeout(timeoutTimer);
+}
 
+function reset_timer() {
+    document.getElementById('timer-hours-input').value = '00';
 
-    // var new_timer = all_seconds - 60;
-    // console.log(new_timer);
-    // hours_timer = parseInt(new_timer / 3600);
-    // console.log(hours_timer);
-    //
-    // all_seconds = all_seconds - (new_timer / 3600 * hours_timer);
-    // console.log(all_seconds);
-    //
-    //
-    // minutes_timer = parseInt(all_seconds / 60);
-    // all_seconds = all_seconds - (all_seconds / 60);
-    // alert(minutes_timer);
+    document.getElementById('timer-minutes-input').value = '00';
 
+    document.getElementById('timer-secondes-input').value = '00';
+    clearTimeout(timeoutTimer);
 
-    alert("h : "+ h+" m : "+m+" s : "+s);
-    // if( h < 10 ){ h = '0' + h; }
-    // if( m < 10 ){ m = '0' + m; }
-    // if( s < 10 ){ s = '0' + s; }
-    // var time = h + ':' + m + ':' + s
-    // document.getElementById('horloge_time').innerHTML = time;
-    // horloge_time_refresh();
 }
 
 function zero_on_input(name_class){
@@ -309,6 +311,7 @@ var minutesChrono = 0;
 var secondsChrono = 0;
 var stepChrono = [];
 var timeoutChrono;
+var timeoutTimer;
 
 var isStoppedChrono = true;
 
