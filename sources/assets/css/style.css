@@ -203,7 +203,7 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgb(50, 132, 183);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -216,19 +216,16 @@ a {
     overflow: hidden;
 }
 
-#tictactoe {
-    width: 100vw;
-    height: 100vh;
+.tic-tac-toe {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    background: black;
     background-size: cover;
     background-position: center;
 }
 
-#tictactoe .board {
+.tic-tac-toe .board {
     width: 100vw;
     height: 100vh;
     display: grid;
@@ -239,10 +236,10 @@ a {
     grid-template-columns: repeat(3, auto);
 }
 
-#tictactoe .board .cell {
+.tic-tac-toe .board .cell {
     width: var(--cell-size);   
     height: var(--cell-size);
-    border: 2px solid white;
+    border: 2px solid rgb(63, 119, 192);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -250,7 +247,7 @@ a {
     cursor: pointer;
 }
 
-#tictactoe .board .cell.x {
+.tic-tac-toe .board .cell.x {
     background: var(--cross);
     background-size: var(--mark-size);
     /* white glow */
@@ -260,7 +257,7 @@ a {
     cursor: not-allowed;
 }
 
-#tictactoe .board .cell.o {
+.tic-tac-toe .board .cell.o {
     background: var(--circle);
     background-size: var(--mark-size);
     filter: drop-shadow(0 0 10px red);
@@ -269,7 +266,7 @@ a {
     cursor: not-allowed;
 }
 
-#tictactoe .board.x .cell:hover:not(.x):not(.o) {
+.tic-tac-toe .board.x .cell:hover:not(.x):not(.o) {
     background: var(--cross);
     background-size: var(--mark-size);
     background-position: center;
@@ -278,7 +275,7 @@ a {
     cursor: pointer;
 }
 
-#tictactoe .board.o .cell:hover:not(.x):not(.o) {
+.tic-tac-toe .board.o .cell:hover:not(.x):not(.o) {
     background: var(--circle);
     background-size: var(--mark-size);
     background-position: center;
@@ -287,24 +284,23 @@ a {
     cursor: pointer;
 }
 
-
-#tictactoe .board .cell:first-child,
-#tictactoe .board .cell:nth-child(2),
-#tictactoe .board .cell:nth-child(3) {
+.tic-tac-toe .board .cell:first-child,
+.tic-tac-toe .board .cell:nth-child(2),
+.tic-tac-toe .board .cell:nth-child(3) {
     border-top: none;
 }
 
-#tictactoe .board .cell:nth-child(3n+1) {
+.tic-tac-toe .board .cell:nth-child(3n+1) {
     border-left: none;
 }
 
-#tictactoe .board .cell:nth-child(3n+3) {
+.tic-tac-toe .board .cell:nth-child(3n+3) {
     border-right: none;
 }
 
-#tictactoe .board .cell:last-child,
-#tictactoe .board .cell:nth-child(7),
-#tictactoe .board .cell:nth-child(8) {
+.tic-tac-toe .board .cell:last-child,
+.tic-tac-toe .board .cell:nth-child(7),
+.tic-tac-toe .board .cell:nth-child(8) {
     border-bottom: none;
 }
 
@@ -318,22 +314,22 @@ a {
     align-items: center;
     font-family: 'Poppins', sans-serif;
     font-size: 1.5rem;
-    color: white;
+    color: rgb(51, 131, 223);
 }
 
-.score__player {
+.player_score {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-.score__player .score__player--name {
+.player_score .player_score_name {
     font-size: 1.5rem;
     font-weight: 600;
 }
 
-.tie {
+.draw {
     color: red;
     display: flex;
     justify-content: center;
@@ -341,30 +337,30 @@ a {
     flex-direction: column;
 }
 
-.tie .tie__name {
+.draw .draw_title {
     font-size: 1.5rem;
     font-weight: 600;
 }
 
 /*** BUTTONS ***/
-#restart {
+#restart, #reset-score {
     align-self: flex-start;
     font-family: 'Poppins', sans-serif;
     font-size: 1.5rem;
-    color: white;
+    color: rgb(51, 131, 223);
     padding: 15px;
     cursor: pointer;
 }
 
 /*** RESPONSIVE ****/
 @media screen and (max-width: 768px) {
-    .score__player .score__player--name {
+    .player_score .player_score_name {
         font-size: 1rem;
     }
-    #tictactoe .score {
+    .tic-tac-toe .score {
         font-size: 1rem;
     }
-    .tie .tie__name {
+    .draw .draw_title {
         font-size: 1rem;
     }
     :root {
@@ -382,3 +378,77 @@ a {
         font-size: 1rem;
     }
 }
+
+
+.btn {
+    border: none;
+    border-radius: 5px;
+    margin: 25px 0;
+    padding: 12px;
+    width: 100%;
+    background: goldenrod;
+    color: #FFF;
+}
+
+.btn:hover {
+    background: rgb(80, 159, 190);;
+    color: #333;
+    cursor: pointer;
+}
+
+input[type=checkbox], input[type=text], #vibrate-on, #vibrate-off {
+    margin-bottom: 16px;
+    margin-left: 20px;
+}
+  
+#save, #unlock {
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 27px;
+}
+  
+#save:hover, #unlock:hover {
+    background-color: #45a049;
+}
+
+.container {
+    border-radius: 5px;
+    padding: 20px;
+}
+
+input[type=password] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+.ecran{
+    width: 100%;
+    height: 100px;
+    background-color: rgb(198, 237, 255);
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 5px;
+    font-size: 25px;
+}
+
+.touches {
+    display: grid;
+    grid-template-columns: repeat(4, 50px);
+    grid-template-rows: repeat(5, 50px);
+    grid-gap: 7px;
+    justify-content: center;
+}
+
