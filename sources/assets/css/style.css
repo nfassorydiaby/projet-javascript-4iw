@@ -452,3 +452,28 @@ input[type=password] {
     justify-content: center;
 }
 
+
+.horloge{
+    width: 100%;
+    height: 100%;
+    /*background-color: #04AA6D;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.horloge h1 {
+    font-size: 18px;
+}
+
+.horloge-bloc {
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px 10px 10px;
+}
+
+#horloge_time {
+    font-size: 24px;
+}
+
