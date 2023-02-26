@@ -20,8 +20,8 @@ close(os_window)
 /* Creating apps */
 create_app("TicTacToe", "assets/images/apps/tictactoe.png", "tictactoe", "tictactoe-content")
 create_app ("Settings", "assets/images/apps/settings.png", "settings", "settings-content")
-create_app("Horloge", "assets/images/apps/horloge.png", "horloge", "horloge-content")
 create_app("Calculatrice", "assets/images/apps/calculatrice.png", "calculatrice", "calculatrice-content")
+create_app("Horloge", "assets/images/apps/horloge.png", "horloge", "horloge-content")
 
 //Functions
 
@@ -174,6 +174,229 @@ function current_time () {
     }, 1000);
 }
 current_time()
+//HORLOGE
+function horloge_time_refresh(){
+    var t = 1000; // rafraîchissement en millisecondes
+    setTimeout('horloge_time()',t)
+}
+
+function horloge_time() {
+    var date = new Date()
+    var h = date.getHours();
+    var m = date.getMinutes();
+    var s = date.getSeconds();
+    if( h < 10 ){ h = '0' + h; }
+    if( m < 10 ){ m = '0' + m; }
+    if( s < 10 ){ s = '0' + s; }
+    var time = h + ':' + m + ':' + s
+    document.getElementById('horloge_time').innerHTML = time;
+    horloge_time_refresh();
+}
+horloge_time()
+
+function start_timer() {
+
+    var h = document.getElementById('timer-hours-input').value;
+    var m = document.getElementById('timer-minutes-input').value;
+    var s = document.getElementById('timer-secondes-input').value;
+
+    var hours_timer = parseInt(h) * 60 * 60;
+    var minutes_timer = parseInt(m) * 60;
+    var secondes_timer = parseInt(s);
+    var all_seconds = hours_timer + minutes_timer + secondes_timer;
+
+    all_seconds = all_seconds - 1;
+
+    // console.log(all_seconds);
+    if (all_seconds>=3600)
+    {
+        var heure = parseInt(all_seconds/3600);
+        if (heure < 10) {
+            heure = "0"+heure;
+        }
+        var reste = all_seconds%3600;
+
+        var minute = parseInt(reste/60);
+        if (minute < 10) {
+            minute = "0"+minute;
+        }
+
+        var seconde = reste%60;
+        if (seconde < 10) {
+            seconde = "0"+seconde;
+        }
+        document.getElementById('timer-hours-input').value = heure;
+
+        document.getElementById('timer-minutes-input').value = minute;
+
+        document.getElementById('timer-secondes-input').value = seconde;
+    }
+    else if (all_seconds<3600 && all_seconds>=60)
+    {
+        var heure = 0;
+        var minute = parseInt(all_seconds/60);
+        var seconde = all_seconds%60;
+
+        if (heure < 10) {
+            heure = "0"+heure;
+        }
+
+        if (minute < 10) {
+            minute = "0"+minute;
+        }
+
+        if (seconde < 10) {
+            seconde = "0"+seconde;
+        }
+
+        document.getElementById('timer-hours-input').value = heure;
+
+        document.getElementById('timer-minutes-input').value = minute;
+
+        document.getElementById('timer-secondes-input').value = seconde;
+
+    }
+    else if (all_seconds < 60 && all_seconds >= 0)
+    {
+
+        var heure = 0;
+        var minute = 0;
+        var seconde = all_seconds;
+
+        if (heure < 10) {
+            heure = "0"+heure;
+        }
+
+        if (minute < 10) {
+            minute = "0"+minute;
+        }
+
+        if (seconde < 10) {
+            seconde = "0"+seconde;
+        }
+        document.getElementById('timer-hours-input').value = heure;
+
+        document.getElementById('timer-minutes-input').value = minute;
+
+        document.getElementById('timer-secondes-input').value = seconde;
+    }
+
+    if (heure == 0 && minute == 0 && seconde == 0) {
+        con.play();
+
+        alert("test")
+    }
+    else {
+        timeoutTimer = setTimeout(start_timer, 1000);
+    }
+}
+
+function stop_timer() {
+    clearTimeout(timeoutTimer);
+}
+
+function reset_timer() {
+    document.getElementById('timer-hours-input').value = '00';
+
+    document.getElementById('timer-minutes-input').value = '00';
+
+    document.getElementById('timer-secondes-input').value = '00';
+    clearTimeout(timeoutTimer);
+
+}
+
+function zero_on_input(name_class){
+    var inputVal = document.getElementById(name_class).value;
+    if(inputVal < 10) {
+        document.getElementById(name_class).value = "0"+inputVal;
+    }
+}
+
+//CHRONO
+
+var hoursChrono = 0;
+var minutesChrono = 0;
+var secondsChrono = 0;
+var stepChrono = [];
+var timeoutChrono;
+var timeoutTimer;
+
+var isStoppedChrono = true;
+
+function start_chrono() {
+
+    if (isStoppedChrono) {
+        isStoppedChrono = false;
+        defilerTemps();
+    }
+}
+
+function step_chrono() {
+
+    if (!isStoppedChrono) {
+        document.getElementById('chrono-step-list').innerHTML = "";
+        stepChrono.push(`${hoursChrono}:${minutesChrono}:${secondsChrono}<br>`);
+        stepChrono.reverse();
+        let listStepChrono = "";
+        stepChrono.forEach(element => document.getElementById('chrono-step-list').innerHTML += element);
+        document.getElementById('chrono-step-list').innerHTML += element
+    }
+}
+
+function stop_chrono() {
+    if (!isStoppedChrono) {
+        isStoppedChrono = true;
+        clearTimeout(timeoutChrono);
+    }
+}
+
+function defilerTemps() {
+    if (isStoppedChrono) return;
+
+    secondsChrono = parseInt(secondsChrono);
+    minutesChrono = parseInt(minutesChrono);
+    hoursChrono = parseInt(hoursChrono);
+
+    secondsChrono++;
+
+    if (secondsChrono == 60) {
+        minutesChrono++;
+        secondsChrono = 0;
+    }
+
+    if (minutesChrono == 60) {
+        hoursChrono++;
+        minutesChrono = 0;
+    }
+
+    //   affichage
+    if (secondsChrono < 10) {
+        secondsChrono = "0" + secondsChrono;
+    }
+
+    if (minutesChrono < 10) {
+        minutesChrono = "0" + minutesChrono;
+    }
+
+    if (hoursChrono < 10) {
+        hoursChrono = "0" + hoursChrono;
+    }
+    document.getElementById('chronometre').innerHTML = `${hoursChrono}:${minutesChrono}:${secondsChrono}`;
+
+
+    timeoutChrono = setTimeout(defilerTemps, 1000);
+}
+
+function reset_chrono() {
+    document.getElementById('chronometre').innerHTML = "00:00:00";
+    stepChrono = [];
+    document.getElementById('chrono-step-list').innerHTML = "";
+    isStoppedChrono = true;
+    hoursChrono = 0;
+    minutesChrono = 0;
+    secondsChrono = 0;
+    clearTimeout(timeoutChrono);
+}
 
 // current date
 function current_date (id) {
@@ -391,7 +614,7 @@ function local_storage_values() {
         document.querySelector(".br-os-window .app").style.background = "dimgray";
         document.querySelector(".br-os-window .app").style.color = "white";
     }
-    
+
     if (JSON.parse(localStorage.getItem("url_latency")) != null) {
         document.getElementById('url-latency').value = JSON.parse(localStorage.getItem("url_latency"));
     }
@@ -676,7 +899,7 @@ function callCalculatrice() {
 
     document.addEventListener('click', (e) => {
         const value = e.target.dataset.key;
-        calculer(value);    
+        calculer(value);
     });
 
     let total = 0;
@@ -699,8 +922,8 @@ function callCalculatrice() {
                     const indexKeycode = listKeycode.indexOf(value);
                     const touche = touches[indexKeycode];
                     ecran.textContent += touche.innerHTML;
-            }  
-        } 
+            }
+        }
     }
 }
 
