@@ -21,7 +21,6 @@ close(os_window)
 create_app("TicTacToe", "assets/images/apps/tictactoe.png", "tictactoe", "tictactoe-content")
 create_app ("Settings", "assets/images/apps/settings.png", "settings", "settings-content")
 create_app("Calculatrice", "assets/images/apps/calculatrice.png", "calculatrice", "calculatrice-content")
-create_app("System Info", "assets/images/apps/system-information.png", "system-info", "system-info-content")
 create_app("Horloge", "assets/images/apps/horloge.png", "horloge", "horloge-content")
 
 //Functions
