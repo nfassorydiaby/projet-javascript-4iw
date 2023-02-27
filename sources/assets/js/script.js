@@ -102,7 +102,6 @@ function maximise_window () {
     os_window.style.left = 0
     os_window.style.width = "100%"
     os_window.style.height = "100vh"
-    console.log("max");
 }
 
 function shorter_window () {
@@ -112,7 +111,6 @@ function shorter_window () {
     os_window.style.left = window.restoreX
     os_window.style.width = "60%"
     os_window.style.height = "60vh"
-    console.log("short");
 }
 
 function open_menu (e, id) {
@@ -193,6 +191,43 @@ function horloge_time() {
     horloge_time_refresh();
 }
 horloge_time()
+function notifyMinuteur() {
+    if (!("Notification" in window)) {
+        // Check if the browser supports notifications
+        alert("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted") {
+        // Check whether notification permissions have already been granted;
+        // if so, create a notification
+        const options = {
+            vibrate: [200, 100, 200]
+        }
+
+        const notification = new Notification("Votre minuterie sonne", options);
+        notification.vibrate;
+
+        // …
+    } else if (Notification.permission !== "denied") {
+        // We need to ask the user for permission
+        Notification.requestPermission().then((permission) => {
+            // If the user accepts, let's create a notification
+            if (permission === "granted") {
+                const options = {
+                    vibrate: [200, 100, 200]
+                }
+
+                const notification = new Notification("Votre minuterie sonne", options);
+                notification.vibrate;
+                // …
+            }
+        });
+    }
+
+    // At last, if the user has denied notifications, and you
+    // want to be respectful there is no need to bother them anymore.
+}
+
+var isStoppedTimer = true;
+
 
 function start_timer() {
 
@@ -207,7 +242,6 @@ function start_timer() {
 
     all_seconds = all_seconds - 1;
 
-    // console.log(all_seconds);
     if (all_seconds>=3600)
     {
         var heure = parseInt(all_seconds/3600);
@@ -282,12 +316,28 @@ function start_timer() {
     }
 
     if (heure == 0 && minute == 0 && seconde == 0) {
-        con.play();
-
-        alert("test")
+        notifyMinuteur();
+        isStoppedTimer = false;
+        document.getElementById('timer-stop-alarme').style.display = "block";
+        sound_timer();
     }
     else {
         timeoutTimer = setTimeout(start_timer, 1000);
+    }
+}
+
+function sound_timer() {
+    if (isStoppedTimer == false){
+        con.play();
+        timeoutSoundTimer = setTimeout(sound_timer, 1000);
+    }
+}
+
+function stop_alarm_timer() {
+    if (isStoppedTimer == false){
+        isStoppedTimer = true;
+        document.getElementById('timer-stop-alarme').style.display = "none";
+        clearTimeout(timeoutSoundTimer);
     }
 }
 
@@ -320,8 +370,11 @@ var secondsChrono = 0;
 var stepChrono = [];
 var timeoutChrono;
 var timeoutTimer;
+var timeoutSoundTimer;
 
 var isStoppedChrono = true;
+
+document.getElementById('timer-stop-alarme').style.display = "none";
 
 function start_chrono() {
 
@@ -492,7 +545,6 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
     // false for not mobile device
     console.log("not mobile device");
 }
-window.navigator.vibrate(200); // vibre pendant 200ms
 
 // Latency
 function latency(id) {
@@ -503,7 +555,7 @@ function latency(id) {
 
             if (url == null) {
                 // changer cette url avec l'url de notre serveur
-                url = 'https://example.com';
+                url = 'https://esgi-os-seven.fr';
             } else {
                 url = JSON.parse(url);
             }
@@ -514,7 +566,6 @@ function latency(id) {
                 let endTime = new Date();
                 let latency = endTime - startTime;
                 document.getElementById(id).innerHTML = latency + " ms";
-                console.log(url);
             })
             .catch(error => console.error(error));
         }, 1000);
@@ -535,7 +586,6 @@ function latency(id) {
             let endTime = new Date();
             let latency = endTime - startTime;
             document.getElementById(id).innerHTML = latency + " ms";
-            console.log(url);
         })
         .catch(error => console.error(error));
     }
@@ -637,95 +687,73 @@ function savedData() {
     // Latency
     if (JSON.parse(localStorage.getItem("input_latency")) === true) {
         document.getElementById("latency").style.display = "none";
-        console.log("true");
     } else {
         document.getElementById("latency").style.display = "inline";
-        console.log("false");
     }
 
     // Current time
     if (JSON.parse(localStorage.getItem("input_current_time")) === true) {
         document.getElementById("current_time").style.display = "none";
-        console.log("true");
     } else {
         document.getElementById("current_time").style.display = "inline";
-        console.log("false");
     }
     // Hours
     if (JSON.parse(localStorage.getItem("input_hours")) === true) {
         document.getElementById("hours").style.display = "none";
-        console.log("true");
     } else {
         document.getElementById("hours").style.display = "inline";
-        console.log("false");
     }
     // Minutes
     if (JSON.parse(localStorage.getItem("input_minutes")) === true) {
         document.getElementById("minutes").style.display = "none";
-        console.log("true");
     } else {
         document.getElementById("minutes").style.display = "inline";
-        console.log("false");
     }
     // Seconds
     if (JSON.parse(localStorage.getItem("input_seconds")) === true) {
         document.getElementById("seconds").style.display = "none";
-        console.log("true");
     } else {
         document.getElementById("seconds").style.display = "inline";
-        console.log("false");
     }
 
     // Current date
     if (JSON.parse(localStorage.getItem("input_current_date")) === true) {
         document.getElementById("current_date").style.display = "none";
-        console.log("true");
     } else {
         document.getElementById("current_date").style.display = "inline";
-        console.log("false");
     }
 
     // Day
     if (JSON.parse(localStorage.getItem("input_day")) === true) {
         document.getElementById("day").style.display = "none";
-        console.log("true");
     } else {
         document.getElementById("day").style.display = "inline";
-        console.log("false");
     }
     // Month
     if (JSON.parse(localStorage.getItem("input_month")) === true) {
         document.getElementById("month").style.display = "none";
-        console.log("true");
     } else {
         document.getElementById("month").style.display = "inline";
-        console.log("false");
     }
     // Year
     if (JSON.parse(localStorage.getItem("input_year")) === true) {
         document.getElementById("year").style.display = "none";
-        console.log("true");
     } else {
         document.getElementById("year").style.display = "inline";
-        console.log("false");
     }
 
     // Vibration
     if (JSON.parse(localStorage.getItem("input_vibration")) === true) {
         document.getElementById("vibration").style.display = "none";
-        console.log("true");
     } else {
         document.getElementById("vibration").style.display = "inline";
-        console.log("false");
     }
 
     // Battery level
     if (JSON.parse(localStorage.getItem("input_battery_level")) === true) {
         document.getElementById("battery_level").style.display = "none";
-        console.log("true");
     } else {
         document.getElementById("battery_level").style.display = "inline";
-        console.log("false");
     }
 }
 savedData();
@@ -966,7 +994,6 @@ function timer() {
 
     all_seconds = all_seconds - 1;
 
-    // console.log(all_seconds);
     if (all_seconds>=3600)
     {
         var heure = parseInt(all_seconds/3600);
@@ -984,23 +1011,18 @@ function timer() {
         if (seconde < 10) {
             seconde = "0"+seconde;
         }
-        // alert("ibjnklm")
-        // var result = heure+':'+minute+':'+seconde;
-        // alert(document.getElementById('timer-hours-input').value);
+
         document.getElementById('timer-hours-input').value = heure;
-        // alert(document.getElementById('timer-hours-input').value);
 
         document.getElementById('timer-minutes-input').value = minute;
 
         document.getElementById('timer-secondes-input').value = seconde;
-        // alert(result);
     }
     else if (all_seconds<3600 && all_seconds>=60)
     {
         var heure = 0;
         var minute = parseInt(all_seconds/60);
         var seconde = all_seconds%60;
-        // var result = '00:'+minute+':'+seconde;
 
         document.getElementById('timer-hours-input').value = heure;
 
@@ -1015,7 +1037,6 @@ function timer() {
         var heure = 0;
         var minute = 0;
         var seconde = all_seconds;
-        // var result = '00:'+minute+':'+seconde;
 
         document.getElementById('timer-hours-input').value = heure;
 
@@ -1031,28 +1052,7 @@ function timer() {
         timer_refresh();
     }
 
-    // return result;
 
-
-    // var new_timer = all_seconds - 60;
-    // console.log(new_timer);
-    // hours_timer = parseInt(new_timer / 3600);
-    // console.log(hours_timer);
-    //
-    // all_seconds = all_seconds - (new_timer / 3600 * hours_timer);
-    // console.log(all_seconds);
-    //
-    //
-    // minutes_timer = parseInt(all_seconds / 60);
-    // all_seconds = all_seconds - (all_seconds / 60);
-    // alert(minutes_timer);
-
-    // if( h < 10 ){ h = '0' + h; }
-    // if( m < 10 ){ m = '0' + m; }
-    // if( s < 10 ){ s = '0' + s; }
-    // var time = h + ':' + m + ':' + s
-    // document.getElementById('horloge_time').innerHTML = time;
-    // horloge_time_refresh();
 }
 
 function zero_on_input(name_class){

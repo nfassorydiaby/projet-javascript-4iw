@@ -245,9 +245,10 @@
                     <input id="timer-secondes-input" style="width: 50px;" type="number" min="0" max="59" value="00" onchange="zero_on_input('timer-secondes-input')">
                 </div>
                 <div id="timer-buttons">
-                    <button id="timer-reset" class="button" onclick="reset_timer()">Réinitialiser</button>
-                    <button id="timer-stop" class="button" onclick="stop_timer()">Arrêter</button>
+                    <button id="timer-reset" onclick="reset_timer()">Réinitialiser</button>
+                    <button id="timer-stop" onclick="stop_timer()">Arrêter</button>
                     <button id="timer-start" onclick="start_timer()">Démarrer</button>
+                    <button id="timer-stop-alarme" onclick="stop_alarm_timer()">Arrêter l'alarme</button>
                 </div>
             </div>
 
