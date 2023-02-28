@@ -58,7 +58,7 @@ openRequest.onsuccess = (event) =>  {
 close(os_window)
 /* Creating apps */
 create_app("TicTacToe", "assets/images/apps/tictactoe.png", "tictactoe", "tictactoe-content")
-create_app ("Settings", "assets/images/apps/settings.png", "settings", "settings-content")
+create_app ("Paramètres", "assets/images/apps/settings.png", "settings", "settings-content")
 create_app("Calculatrice", "assets/images/apps/calculatrice.png", "calculatrice", "calculatrice-content")
 create_app("Horloge", "assets/images/apps/horloge.png", "horloge", "horloge-content")
 
@@ -113,6 +113,7 @@ function window_open (id, id_content) {
     local_storage_values();
     callTictactoe();
     callCalculatrice();
+    callVibration();
     reset_tic_tac_toe();
 }
 
@@ -447,6 +448,8 @@ function vibrationOn() {
     document.getElementById("vibration").innerHTML = "Activé";
     document.getElementById("vibrate-on").disabled = true;
     document.getElementById("vibrate-off").disabled = false;
+    document.querySelector("#vibrate-on").style.background = "dimgray";
+    document.querySelector("#vibrate-off").style.background = "#04AA6D";
 }
 
 function vibrationOff() {
@@ -454,21 +457,30 @@ function vibrationOff() {
     document.getElementById("vibration").innerHTML = "Désactivé";  
     document.getElementById("vibrate-on").disabled = false;
     document.getElementById("vibrate-off").disabled = true;
+    document.querySelector("#vibrate-on").style.background = "#04AA6D";
+    document.querySelector("#vibrate-off").style.background = "dimgray";
 };
 
 function vibrate() {
     if (JSON.parse(localStorage.getItem("vibrationEnabled")) === true) {
         window.navigator.vibrate([200, 100, 200]);
+        console.log('vibrationOn');
     } else {
         window.navigator.vibrate(0);
+        console.log('vibrationOff');
     }
 }
 
-var buttons = document.querySelectorAll("button");
-for (var i = 0; i < buttons.length; i++) {
-  buttons[i].addEventListener("click", function() {
-    vibrate();
-  });
+function callVibration() {
+    const buttons = document.querySelectorAll('button');
+
+    // Parcourt tous les boutons et ajoute un écouteur d'événement "click" à chacun
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Appelle la fonction "vibrate"
+            vibrate();
+        });
+    });
 }
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
@@ -581,9 +593,13 @@ function local_storage_values() {
     if (JSON.parse(localStorage.getItem("vibrationEnabled")) === true) {
         document.getElementById("vibrate-on").disabled = true;
         document.getElementById("vibrate-off").disabled = false;
+        document.querySelector("#vibrate-on").style.background = "dimgray";
+        document.querySelector("#vibrate-off").style.background = "#04AA6D";
     } else {
         document.getElementById("vibrate-on").disabled = false;
         document.getElementById("vibrate-off").disabled = true;
+        document.querySelector("#vibrate-on").style.background = "#04AA6D";
+        document.querySelector("#vibrate-off").style.background = "dimgray";
     }
 
     if (JSON.parse(localStorage.getItem("themeMode")) === true) {
@@ -591,11 +607,15 @@ function local_storage_values() {
         document.getElementById("dark-mode").disabled = false;
         document.querySelector(".br-os-window .app").style.background = "white";
         document.querySelector(".br-os-window .app").style.color = "black";
+        document.querySelector("#light-mode").style.background = "dimgray";
+        document.querySelector("#dark-mode").style.background = "#04AA6D";
     } else {
         document.getElementById("light-mode").disabled = false;
         document.getElementById("dark-mode").disabled = true;
         document.querySelector(".br-os-window .app").style.background = "dimgray";
         document.querySelector(".br-os-window .app").style.color = "white";
+        document.querySelector("#dark-mode").style.background = "dimgray";
+        document.querySelector("#light-mode").style.background = "#04AA6D";
     }
 
     if (JSON.parse(localStorage.getItem("url_latency")) != null) {
@@ -692,7 +712,7 @@ function savedData() {
 savedData();
 
 // Verrouiller son écran et déverrouiller
-let password = "secret";
+let password = "unlock";
 let isLocked = false;
 
 function lockScreen() {
@@ -717,6 +737,8 @@ function lightMode() {
     document.getElementById("dark-mode").disabled = false;
     document.querySelector(".br-os-window .app").style.background = "white";
     document.querySelector(".br-os-window .app").style.color = "black";
+    document.querySelector("#light-mode").style.background = "dimgray";
+    document.querySelector("#dark-mode").style.background = "#04AA6D";
 }
 
 function darkMode() {
@@ -725,6 +747,8 @@ function darkMode() {
     document.getElementById("dark-mode").disabled = true;
     document.querySelector(".br-os-window .app").style.background = "dimgray";
     document.querySelector(".br-os-window .app").style.color = "white";
+    document.querySelector("#dark-mode").style.background = "dimgray";
+    document.querySelector("#light-mode").style.background = "#04AA6D";
 };
 
 
@@ -852,7 +876,9 @@ function callCalculatrice() {
     const result = document.getElementById("result");
     const keys = document.querySelectorAll(".keys button");
     const clear = document.getElementById("clear");
+    const reset = document.getElementById("reset-results-list");
     var resulsList = [];
+    var element = '';
 
     // Ajout des événements aux boutons
     keys.forEach(key => {
@@ -864,9 +890,9 @@ function callCalculatrice() {
                 result.value = calcul;
 
                 document.getElementById('results-list').innerHTML = "";
-                resulsList.push(`<li>${calcul}</li><br>`);
+                resulsList.push(`<li class="show_result">${calcul}</li><br>`);
                 resulsList.forEach(element => document.getElementById('results-list').innerHTML += element);
-                document.getElementById('results-list').innerHTML += element
+                document.getElementById('results-list').innerHTML += element;
             } else {
                 result.value += key.value;
             }
@@ -876,6 +902,11 @@ function callCalculatrice() {
     // Effacement du résultat
     clear.addEventListener("click", () => {
         result.value = "";
+    });
+
+    reset.addEventListener('click', () => {
+        resulsList = [];
+        document.getElementById('results-list').innerHTML = "";
     });
 }
 
@@ -925,10 +956,11 @@ function start_chrono() {
 }
 
 function step_chrono() {
+    var element = '';
 
     if (!isStoppedChrono) {
         document.getElementById('chrono-step-list').innerHTML = "";
-        stepChrono.push(`${hoursChrono}:${minutesChrono}:${secondsChrono}<br>`);
+        stepChrono.push(`<p class="show_etape">${hoursChrono}:${minutesChrono}:${secondsChrono}</p>`);
         stepChrono.reverse();
         let listStepChrono = "";
         stepChrono.forEach(element => document.getElementById('chrono-step-list').innerHTML += element);
