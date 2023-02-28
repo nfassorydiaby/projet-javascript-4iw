@@ -74,6 +74,7 @@ function window_open (id, id_content) {
     local_storage_values();
     callTictactoe();
     callCalculatrice();
+    callVibration();
 }
 
 function init_window() {
@@ -526,16 +527,23 @@ function vibrationOff() {
 function vibrate() {
     if (JSON.parse(localStorage.getItem("vibrationEnabled")) === true) {
         window.navigator.vibrate([200, 100, 200]);
+        console.log('vibrationOn');
     } else {
         window.navigator.vibrate(0);
+        console.log('vibrationOff');
     }
 }
 
-var buttons = document.querySelectorAll("button");
-for (var i = 0; i < buttons.length; i++) {
-  buttons[i].addEventListener("click", function() {
-    vibrate();
-  });
+function callVibration() {
+    const buttons = document.querySelectorAll('button');
+
+    // Parcourt tous les boutons et ajoute un écouteur d'événement "click" à chacun
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Appelle la fonction "vibrate"
+            vibrate();
+        });
+    });
 }
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
@@ -919,7 +927,9 @@ function callCalculatrice() {
     const result = document.getElementById("result");
     const keys = document.querySelectorAll(".keys button");
     const clear = document.getElementById("clear");
+    const reset = document.getElementById("reset-results-list");
     var resulsList = [];
+    var element = '';
 
     // Ajout des événements aux boutons
     keys.forEach(key => {
@@ -931,9 +941,9 @@ function callCalculatrice() {
                 result.value = calcul;
 
                 document.getElementById('results-list').innerHTML = "";
-                resulsList.push(`<li>${calcul}</li><br>`);
+                resulsList.push(`<li class="show_result">${calcul}</li><br>`);
                 resulsList.forEach(element => document.getElementById('results-list').innerHTML += element);
-                document.getElementById('results-list').innerHTML += element
+                document.getElementById('results-list').innerHTML += element;
             } else {
                 result.value += key.value;
             }
@@ -944,6 +954,19 @@ function callCalculatrice() {
     clear.addEventListener("click", () => {
         result.value = "";
     });
+
+    reset.addEventListener('click', () => {
+        // Appelle la fonction "vibrate"
+        reset_results_list(resulsList, 'results-list');
+    });
+
+    
+}
+
+// Reset results list
+function reset_results_list(resulsList, id) {
+    resulsList = [];
+    document.getElementById(id).innerHTML = "";
 }
 
 // Horloge
