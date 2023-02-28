@@ -216,169 +216,6 @@ a {
     overflow: hidden;
 }
 
-.tic-tac-toe {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    background-size: cover;
-    background-position: center;
-}
-
-.tic-tac-toe .board {
-    width: 100vw;
-    height: 100vh;
-    display: grid;
-    justify-content: center;
-    align-content: center;
-    justify-items: center;
-    align-items: center;
-    grid-template-columns: repeat(3, auto);
-}
-
-.tic-tac-toe .board .cell {
-    width: var(--cell-size);   
-    height: var(--cell-size);
-    border: 2px solid rgb(63, 119, 192);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-}
-
-.tic-tac-toe .board .cell.x {
-    background: var(--cross);
-    background-size: var(--mark-size);
-    /* white glow */
-    filter: drop-shadow(0 0 10px white);
-    background-position: center;
-    background-repeat: no-repeat;
-    cursor: not-allowed;
-}
-
-.tic-tac-toe .board .cell.o {
-    background: var(--circle);
-    background-size: var(--mark-size);
-    filter: drop-shadow(0 0 10px red);
-    background-position: center;
-    background-repeat: no-repeat;
-    cursor: not-allowed;
-}
-
-.tic-tac-toe .board.x .cell:hover:not(.x):not(.o) {
-    background: var(--cross);
-    background-size: var(--mark-size);
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.4;
-    cursor: pointer;
-}
-
-.tic-tac-toe .board.o .cell:hover:not(.x):not(.o) {
-    background: var(--circle);
-    background-size: var(--mark-size);
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.4;
-    cursor: pointer;
-}
-
-.tic-tac-toe .board .cell:first-child,
-.tic-tac-toe .board .cell:nth-child(2),
-.tic-tac-toe .board .cell:nth-child(3) {
-    border-top: none;
-}
-
-.tic-tac-toe .board .cell:nth-child(3n+1) {
-    border-left: none;
-}
-
-.tic-tac-toe .board .cell:nth-child(3n+3) {
-    border-right: none;
-}
-
-.tic-tac-toe .board .cell:last-child,
-.tic-tac-toe .board .cell:nth-child(7),
-.tic-tac-toe .board .cell:nth-child(8) {
-    border-bottom: none;
-}
-
-/*** SCORE ***/
-
-.score {
-    width: 100%;
-    height: 20%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
-    color: rgb(51, 131, 223);
-}
-
-.player_score {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.player_score .player_score_name {
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.draw {
-    color: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.draw .draw_title {
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-/*** BUTTONS ***/
-#restart, #reset-score {
-    align-self: flex-start;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
-    color: rgb(51, 131, 223);
-    padding: 15px;
-    cursor: pointer;
-}
-
-/*** RESPONSIVE ****/
-@media screen and (max-width: 768px) {
-    .player_score .player_score_name {
-        font-size: 1rem;
-    }
-    .tic-tac-toe .score {
-        font-size: 1rem;
-    }
-    .draw .draw_title {
-        font-size: 1rem;
-    }
-    :root {
-        --mark-size: 50px;
-        --cell-size: 120px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    :root {
-        --mark-size: 35px;
-        --cell-size: 80px;
-    }
-    #restart {
-        font-size: 1rem;
-    }
-}
-
 
 .btn {
     border: none;
@@ -420,6 +257,43 @@ input[type=checkbox], input[type=text], #vibrate-on, #vibrate-off {
     padding: 20px;
 }
 
+.settings-bloc {
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px 10px 10px;
+}
+
+.settings_container {
+    background-color: #5AA2F3;
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+}
+
+.settings_container button{
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 27px;
+}
+
+.settings_container input[type=checkbox]{
+    height:20px;
+    width:20px;
+    accent-color:black;
+    border-radius: 5px;
+}
+
+/* checkbox */
+.settings_container input[type=text]{
+    border-radius: 5px;
+    padding: 7px 7px 7px 7px;
+}
+
+
 input[type=password] {
     width: 100%;
     padding: 12px;
@@ -454,13 +328,12 @@ input[type=password] {
 
 
 .horloge{
-    width: 100%;
-    height: 100%;
     /*background-color: #04AA6D;*/
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .horloge h1 {
@@ -477,3 +350,340 @@ input[type=password] {
     font-size: 24px;
 }
 
+.chrono_container{
+    background-color: #5AA2F3;
+    width: 100%;
+    padding: 20px 0;
+    padding-bottom: 50px;
+    border-radius: 10px;
+}
+
+.timer_container{
+    background-color: #5AA2F3;
+    width: 100%;
+    padding: 20px 0;
+    padding-bottom: 50px;
+    border-radius: 10px;
+}
+
+#chronometre{
+    position: relative;
+    width: 92%;
+    background: #ffffff;
+    left: 4%;
+    padding: 40px 0;
+    font-family: 'Roboto mono',monospace;
+    color: #0381bb;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0,139,253,0.25);
+}
+
+.show_etape{
+    position: relative;
+    width: 92%;
+    background: #ffffff;
+    left: 4%;
+    font-family: 'Roboto mono',monospace;
+    color: #black;
+    font-size: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#chrono-buttons {
+    width: 90%;
+    margin: 60px auto 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
+#chrono-buttons button{
+    width: 120px;
+    height: 45px;
+    color: #ffffff;
+    border: none;
+    font-family: 'Poppins',sans-serif;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+#chrono-start{
+    background-color: #20b380;
+}
+
+#chrono-stop{
+    background-color: #d23332;
+}
+
+#chrono-step{
+    background-color: #F59FF3;
+}
+
+#chrono-reset{
+    background-color: #205e94;
+}
+
+#timer-buttons {
+    width: 90%;
+    margin: 60px auto 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
+#timer-buttons button{
+    width: 120px;
+    height: 45px;
+    color: #ffffff;
+    border: none;
+    font-family: 'Poppins',sans-serif;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+#timer-start{
+    background-color: #20b380;
+}
+
+#timer-stop{
+    background-color: #d23332;
+}
+
+#timer-stop-alarme{
+    background-color: #F59FF3;
+}
+
+#timer-reset{
+    background-color: #205e94;
+}
+
+#timer-hours-input, #timer-minutes-input, #timer-secondes-input {
+	display: inline-block;
+    width: 30px;
+    line-height: 38px;
+    background: #f1f1f1;
+    color: #444;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+	border: none;
+	border-radius: 5px;
+}
+
+.display {
+	margin-bottom: 10px;
+}
+
+.keys {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 5px;
+}
+
+.calculatrice button {
+	font-size: 24px;
+	padding: 10px;
+	background-color: #eee;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#result {
+	font-size: 36px;
+	text-align: right;
+	width: 90%;
+	border: none;
+	border-radius: 5px;
+	background-color: #fff;
+	box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+}
+
+.calculatrice button.operator {
+	background-color: #f1f1f1;
+}
+
+.calculatrice button:hover {
+	background-color: #ddd;
+}
+
+.calculatrice button:active {
+	background-color: #ccc;
+}
+
+#clear {
+	grid-column: span 2;
+}
+
+#equal {
+	background-color: #f00;
+	color: #fff;
+	grid-column: span 2;
+}
+
+.all_results {
+  background-color: #eee;
+  margin-top: 20px;
+}
+
+li {
+    list-style-position: outside;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.show_result {
+    list-style-position: outside;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: white;
+}
+
+
+@media screen and (max-width: 480px) {
+	.calculator .display {
+		margin-bottom: 5px;
+	}
+
+	.calculator button {
+		font-size: 20px;
+		padding: 5px;
+	}
+
+	#result {
+		font-size: 24px;
+		padding: 5px;
+	}
+
+	#equal {
+		font-size: 20px;
+	}
+}
+
+@media screen and (max-width: 768px) {
+    #chrono-buttons, #timer-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    #chrono-buttons button {
+        margin-bottom: 10px;
+    }
+    #timer-buttons button {
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .settings_container {
+        font-size: 14px;
+    }
+
+    .settings_container button{
+        padding: 4px 6px;
+        margin-bottom: 27px;
+    }
+
+    .settings_container input[type=checkbox]{
+        height:15px;
+        width:15px;
+    }
+
+    /* checkbox */
+    .settings_container input[type=text]{
+        padding: 3px 3px 3px 3px;
+        width: 100px;
+    }
+}
+
+/*TIC TAC TOE*/
+.tic-tac-toe{
+    /*background-color: #04AA6D;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.player{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.player-stat{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.row-tic-tac-toe {
+    /* background-color: #04AA6D; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.col-tic-tac-toe {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 200px;
+    height: 100px;
+    cursor: pointer;
+    font-size: 50px;
+    text-align: center;
+}
+
+.disable-case {
+    background-size: var(--mark-size);
+    filter: drop-shadow(0 0 10px white);
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: not-allowed;
+
+}
+
+.button-reset-ttt {
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    background-color: #04AA6D;
+    color: white;
+}
+
+#player-winner {
+    font-size: 24px;
+}
+
+@media screen and (min-width: 700px) and (max-width:1000px)  {
+    .col-tic-tac-toe {
+        width: 100px;
+        height: 50px;
+        font-size: 30px;
+
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .col-tic-tac-toe {
+        width: 50px;
+        height: 25px;
+        font-size: 20px;
+
+    }
+}

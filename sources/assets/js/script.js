@@ -14,12 +14,51 @@ const con = new Audio("assets/music/alert.wav")
 const okay = new Audio("assets/music/positive.wav")
 const no = new Audio("assets/music/negative.wav")
 
+var db = '';
+
+const openRequest = window.indexedDB.open('db',1);
+
+openRequest.onupgradeneeded =  (event) => {
+    db = openRequest.result;
+
+    if(!db.objectStoreNames.contains('users')){
+        const userStore = db.createObjectStore('users', {keyPath: 'id'})
+        userStore.createIndex("name", "name", { unique: true });
+        userStore.createIndex("victories", "victories", { unique: false });
+        userStore.createIndex("defeats", "defeats", { unique: false });
+        userStore.createIndex("draws", "draws", { unique: false });
+
+        const userData = [
+            { id: 1, name: "Joueur 1", victories: 0 , defeats: 0 , draws: 0 },
+            { id: 2, name: "Joueur 2", victories: 0 , defeats: 0 , draws: 0 }
+        ];
+
+        userStore.transaction.oncomplete = (event) => {
+            // Store values in the newly created objectStore.
+            const userObjectStore = db.transaction("users", "readwrite").objectStore("users");
+            userData.forEach((user) => {
+                userObjectStore.add(user);
+            });
+        };
+
+        db.createObjectStore('users_battle', {keyPath: 'id'})
+    }
+}
+
+openRequest.onerror = (event) =>  {
+    alert("Impossible d'accéder à IndexedDB");
+}
+
+openRequest.onsuccess = (event) =>  {
+    db = openRequest.result;
+}
+
 //Operations
 /* Reseting window */
 close(os_window)
 /* Creating apps */
 create_app("TicTacToe", "assets/images/apps/tictactoe.png", "tictactoe", "tictactoe-content")
-create_app ("Settings", "assets/images/apps/settings.png", "settings", "settings-content")
+create_app ("Paramètres", "assets/images/apps/settings.png", "settings", "settings-content")
 create_app("Calculatrice", "assets/images/apps/calculatrice.png", "calculatrice", "calculatrice-content")
 create_app("Horloge", "assets/images/apps/horloge.png", "horloge", "horloge-content")
 
@@ -72,8 +111,9 @@ function window_open (id, id_content) {
 
     open(os_window)
     local_storage_values();
-    callTictactoe();
     callCalculatrice();
+    callVibration();
+    reset_tic_tac_toe();
 }
 
 function init_window() {
@@ -172,25 +212,7 @@ function current_time () {
     }, 1000);
 }
 current_time()
-//HORLOGE
-function horloge_time_refresh(){
-    var t = 1000; // rafraîchissement en millisecondes
-    setTimeout('horloge_time()',t)
-}
 
-function horloge_time() {
-    var date = new Date()
-    var h = date.getHours();
-    var m = date.getMinutes();
-    var s = date.getSeconds();
-    if( h < 10 ){ h = '0' + h; }
-    if( m < 10 ){ m = '0' + m; }
-    if( s < 10 ){ s = '0' + s; }
-    var time = h + ':' + m + ':' + s
-    document.getElementById('horloge_time').innerHTML = time;
-    horloge_time_refresh();
-}
-horloge_time()
 function notifyMinuteur() {
     if (!("Notification" in window)) {
         // Check if the browser supports notifications
@@ -362,95 +384,6 @@ function zero_on_input(name_class){
     }
 }
 
-//CHRONO
-
-var hoursChrono = 0;
-var minutesChrono = 0;
-var secondsChrono = 0;
-var stepChrono = [];
-var timeoutChrono;
-var timeoutTimer;
-var timeoutSoundTimer;
-
-var isStoppedChrono = true;
-
-document.getElementById('timer-stop-alarme').style.display = "none";
-
-function start_chrono() {
-
-    if (isStoppedChrono) {
-        isStoppedChrono = false;
-        defilerTemps();
-    }
-}
-
-function step_chrono() {
-
-    if (!isStoppedChrono) {
-        document.getElementById('chrono-step-list').innerHTML = "";
-        stepChrono.push(`${hoursChrono}:${minutesChrono}:${secondsChrono}<br>`);
-        stepChrono.reverse();
-        let listStepChrono = "";
-        stepChrono.forEach(element => document.getElementById('chrono-step-list').innerHTML += element);
-        document.getElementById('chrono-step-list').innerHTML += element
-    }
-}
-
-function stop_chrono() {
-    if (!isStoppedChrono) {
-        isStoppedChrono = true;
-        clearTimeout(timeoutChrono);
-    }
-}
-
-function defilerTemps() {
-    if (isStoppedChrono) return;
-
-    secondsChrono = parseInt(secondsChrono);
-    minutesChrono = parseInt(minutesChrono);
-    hoursChrono = parseInt(hoursChrono);
-
-    secondsChrono++;
-
-    if (secondsChrono == 60) {
-        minutesChrono++;
-        secondsChrono = 0;
-    }
-
-    if (minutesChrono == 60) {
-        hoursChrono++;
-        minutesChrono = 0;
-    }
-
-    //   affichage
-    if (secondsChrono < 10) {
-        secondsChrono = "0" + secondsChrono;
-    }
-
-    if (minutesChrono < 10) {
-        minutesChrono = "0" + minutesChrono;
-    }
-
-    if (hoursChrono < 10) {
-        hoursChrono = "0" + hoursChrono;
-    }
-    document.getElementById('chronometre').innerHTML = `${hoursChrono}:${minutesChrono}:${secondsChrono}`;
-
-
-    timeoutChrono = setTimeout(defilerTemps, 1000);
-}
-
-function reset_chrono() {
-    document.getElementById('chronometre').innerHTML = "00:00:00";
-    stepChrono = [];
-    document.getElementById('chrono-step-list').innerHTML = "";
-    isStoppedChrono = true;
-    hoursChrono = 0;
-    minutesChrono = 0;
-    secondsChrono = 0;
-    clearTimeout(timeoutChrono);
-}
-
 // current date
 function current_date (id) {
     var date = new Date();
@@ -514,6 +447,8 @@ function vibrationOn() {
     document.getElementById("vibration").innerHTML = "Activé";
     document.getElementById("vibrate-on").disabled = true;
     document.getElementById("vibrate-off").disabled = false;
+    document.querySelector("#vibrate-on").style.background = "dimgray";
+    document.querySelector("#vibrate-off").style.background = "#04AA6D";
 }
 
 function vibrationOff() {
@@ -521,21 +456,30 @@ function vibrationOff() {
     document.getElementById("vibration").innerHTML = "Désactivé";  
     document.getElementById("vibrate-on").disabled = false;
     document.getElementById("vibrate-off").disabled = true;
+    document.querySelector("#vibrate-on").style.background = "#04AA6D";
+    document.querySelector("#vibrate-off").style.background = "dimgray";
 };
 
 function vibrate() {
     if (JSON.parse(localStorage.getItem("vibrationEnabled")) === true) {
         window.navigator.vibrate([200, 100, 200]);
+        console.log('vibrationOn');
     } else {
         window.navigator.vibrate(0);
+        console.log('vibrationOff');
     }
 }
 
-var buttons = document.querySelectorAll("button");
-for (var i = 0; i < buttons.length; i++) {
-  buttons[i].addEventListener("click", function() {
-    vibrate();
-  });
+function callVibration() {
+    const buttons = document.querySelectorAll('button');
+
+    // Parcourt tous les boutons et ajoute un écouteur d'événement "click" à chacun
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Appelle la fonction "vibrate"
+            vibrate();
+        });
+    });
 }
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
@@ -548,7 +492,7 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 
 // Latency
 function latency(id) {
-    if (JSON.parse(localStorage.getItem("input_refresh_latency_seconds")) === true) {
+    if (JSON.parse(localStorage.getItem("input_refresh_latency_seconds")) === false) {
         setInterval(() => {
             let startTime = new Date();
             let url = localStorage.getItem("url_latency");
@@ -648,9 +592,13 @@ function local_storage_values() {
     if (JSON.parse(localStorage.getItem("vibrationEnabled")) === true) {
         document.getElementById("vibrate-on").disabled = true;
         document.getElementById("vibrate-off").disabled = false;
+        document.querySelector("#vibrate-on").style.background = "dimgray";
+        document.querySelector("#vibrate-off").style.background = "#04AA6D";
     } else {
         document.getElementById("vibrate-on").disabled = false;
         document.getElementById("vibrate-off").disabled = true;
+        document.querySelector("#vibrate-on").style.background = "#04AA6D";
+        document.querySelector("#vibrate-off").style.background = "dimgray";
     }
 
     if (JSON.parse(localStorage.getItem("themeMode")) === true) {
@@ -658,11 +606,15 @@ function local_storage_values() {
         document.getElementById("dark-mode").disabled = false;
         document.querySelector(".br-os-window .app").style.background = "white";
         document.querySelector(".br-os-window .app").style.color = "black";
+        document.querySelector("#light-mode").style.background = "dimgray";
+        document.querySelector("#dark-mode").style.background = "#04AA6D";
     } else {
         document.getElementById("light-mode").disabled = false;
         document.getElementById("dark-mode").disabled = true;
         document.querySelector(".br-os-window .app").style.background = "dimgray";
         document.querySelector(".br-os-window .app").style.color = "white";
+        document.querySelector("#dark-mode").style.background = "dimgray";
+        document.querySelector("#light-mode").style.background = "#04AA6D";
     }
 
     if (JSON.parse(localStorage.getItem("url_latency")) != null) {
@@ -759,7 +711,7 @@ function savedData() {
 savedData();
 
 // Verrouiller son écran et déverrouiller
-let password = "secret";
+let password = "unlock";
 let isLocked = false;
 
 function lockScreen() {
@@ -784,6 +736,8 @@ function lightMode() {
     document.getElementById("dark-mode").disabled = false;
     document.querySelector(".br-os-window .app").style.background = "white";
     document.querySelector(".br-os-window .app").style.color = "black";
+    document.querySelector("#light-mode").style.background = "dimgray";
+    document.querySelector("#dark-mode").style.background = "#04AA6D";
 }
 
 function darkMode() {
@@ -792,167 +746,49 @@ function darkMode() {
     document.getElementById("dark-mode").disabled = true;
     document.querySelector(".br-os-window .app").style.background = "dimgray";
     document.querySelector(".br-os-window .app").style.color = "white";
+    document.querySelector("#dark-mode").style.background = "dimgray";
+    document.querySelector("#light-mode").style.background = "#04AA6D";
 };
 
 
-// TicTacToe
-function callTictactoe() {
-    //Tic Tac Toe
-    const allCells = document.querySelectorAll('[data-cell]');
-    const playerOneScrore = document.getElementById('player-one-score');
-    const playerTwoScrore = document.getElementById('player-two-score');
-    const drawScore = document.getElementById('draw-score');
-    const board = document.getElementById('board')
-    const restartButton = document.getElementById('restart')
-    const resetButton = document.getElementById('reset-score')
-    const winningCombi = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ]
-    const o_class = 'o';
-    const x_class = 'x';
-    let o_turn;
-
-    startGame();
-    restartButton.addEventListener('click', restartGame);
-    resetButton.addEventListener('click', resetScrore);
-
-    function restartGame() {
-        startGame();
-    }
-
-    function resetScrore() {
-        playerOneScrore.innerText = 0;
-        playerTwoScrore.innerText = 0;
-        drawScore.innerText = 0;
-        localStorage.setItem("draw_score", 0);
-        localStorage.setItem("player_two_score", 0);
-        localStorage.setItem("player_one_score", 0);
-    }
-
-    function startGame() {
-        o_turn = false;
-        allCells.forEach(cell => {
-            cell.classList.remove(o_class);
-            cell.classList.remove(x_class);
-            cell.removeEventListener('click', handleClick);
-            cell.addEventListener('click', handleClick, { once: true })
-        })
-        setBoardHoverClass();
-    }
-
-    function handleClick(e) {
-        const cell = e.target;
-        const currentClass = o_turn ? o_class : x_class;
-        //place mark
-        placeMark(cell, currentClass);
-        if (checkWin(currentClass)) {
-            endGame(false);
-        } else if (isDraw()) {
-            endGame(true);
-        } else {
-            //switch turns
-            swapTurns();
-            //set board hover class
-            setBoardHoverClass();
-        }
-    }
-
-    function endGame(draw) {
-        if (draw) {
-            drawScore.innerText = parseInt(drawScore.innerText) + 1;
-            localStorage.setItem("draw_score", drawScore.innerText);
-        } else {
-            if (o_turn) {
-                playerTwoScrore.innerText = parseInt(playerTwoScrore.innerText) + 1;
-                localStorage.setItem("player_two_score", playerTwoScrore.innerText);
-            }
-            else {
-                playerOneScrore.innerText = parseInt(playerOneScrore.innerText) + 1;
-                localStorage.setItem("player_one_score", playerOneScrore.innerText);
-            }
-        }
-        startGame();
-    }
-
-    function isDraw() {
-        return [...allCells].every(cell => {
-            return cell.classList.contains(x_class) || cell.classList.contains(o_class)
-        })
-    }
-
-    function placeMark(cell, currentClass) {
-        cell.classList.add(currentClass);
-    }
-
-    function swapTurns() {
-        o_turn = !o_turn;
-    }
-
-    function setBoardHoverClass() {
-        board.classList.remove(x_class);
-        board.classList.remove(o_class);
-        if (o_turn) {
-            board.classList.add(o_class);
-        } else {
-            board.classList.add(x_class);
-        }
-    }
-
-    function checkWin(currentClass) {
-        return winningCombi.some(combination => {
-            return combination.every(i => {
-            return allCells[i].classList.contains(currentClass)
-            })
-        })
-    }
-}
 
 // Calculatrice
 function callCalculatrice() {
-    // DOM
-    const touches = [...document.querySelectorAll('.button')];
-    const listKeycode = touches.map(touch => touch.dataset.key);
-    const ecran = document.querySelector('.ecran');
+    const result = document.getElementById("result");
+    const keys = document.querySelectorAll(".keys button");
+    const clear = document.getElementById("clear");
+    const reset = document.getElementById("reset-results-list");
+    var resulsList = [];
+    var element = '';
 
-    document.addEventListener('keydown', (e) => {
-        const value = e.key.toString();
-    });
+    // Ajout des événements aux boutons
+    keys.forEach(key => {
+        key.addEventListener("click", () => {
+            if (key.value === "C") {
+                result.value = "";
+            } else if (key.value === "=") {
+                const calcul = eval(result.value);
+                result.value = calcul;
 
-    document.addEventListener('click', (e) => {
-        const value = e.target.dataset.key;
-        calculer(value);
-    });
-
-    let total = 0;
-    let result = 0;
-    let previousResults = [];
-
-    const calculer = (value) => {
-        if (listKeycode.includes(value)) {
-            switch(value) {
-                case '8':
-                    ecran.textContent = "";
-                    result = 0;
-                    break;
-                case '13':
-                    total += result;
-                    const calcul = eval(ecran.textContent);
-                    ecran.textContent = calcul;
-                    break;
-                default:
-                    const indexKeycode = listKeycode.indexOf(value);
-                    const touche = touches[indexKeycode];
-                    ecran.textContent += touche.innerHTML;
+                document.getElementById('results-list').innerHTML = "";
+                resulsList.push(`<li class="show_result">${calcul}</li><br>`);
+                resulsList.forEach(element => document.getElementById('results-list').innerHTML += element);
+                document.getElementById('results-list').innerHTML += element;
+            } else {
+                result.value += key.value;
             }
-        }
-    }
+        });
+    });
+
+    // Effacement du résultat
+    clear.addEventListener("click", () => {
+        result.value = "";
+    });
+
+    reset.addEventListener('click', () => {
+        resulsList = [];
+        document.getElementById('results-list').innerHTML = "";
+    });
 }
 
 // Horloge
@@ -976,85 +812,6 @@ function horloge_time() {
 }
 horloge_time()
 
-function timer_refresh(){
-    var t = 1000; // rafraîchissement en millisecondes
-    setTimeout('timer()',t)
-}
-
-function timer() {
-
-    var h = document.getElementById('timer-hours-input').value;
-    var m = document.getElementById('timer-minutes-input').value;
-    var s = document.getElementById('timer-secondes-input').value;
-
-    var hours_timer = parseInt(h) * 60 * 60;
-    var minutes_timer = parseInt(m) * 60;
-    var secondes_timer = parseInt(s);
-    var all_seconds = hours_timer + minutes_timer + secondes_timer;
-
-    all_seconds = all_seconds - 1;
-
-    if (all_seconds>=3600)
-    {
-        var heure = parseInt(all_seconds/3600);
-        if (heure < 10) {
-            heure = "0"+heure;
-        }
-        var reste = all_seconds%3600;
-
-        var minute = parseInt(reste/60);
-        if (minute < 10) {
-            minute = "0"+minute;
-        }
-
-        var seconde = reste%60;
-        if (seconde < 10) {
-            seconde = "0"+seconde;
-        }
-
-        document.getElementById('timer-hours-input').value = heure;
-
-        document.getElementById('timer-minutes-input').value = minute;
-
-        document.getElementById('timer-secondes-input').value = seconde;
-    }
-    else if (all_seconds<3600 && all_seconds>=60)
-    {
-        var heure = 0;
-        var minute = parseInt(all_seconds/60);
-        var seconde = all_seconds%60;
-
-        document.getElementById('timer-hours-input').value = heure;
-
-        document.getElementById('timer-minutes-input').value = minute;
-
-        document.getElementById('timer-secondes-input').value = seconde;
-
-    }
-    else if (all_seconds < 60 && all_seconds >= 0)
-    {
-
-        var heure = 0;
-        var minute = 0;
-        var seconde = all_seconds;
-
-        document.getElementById('timer-hours-input').value = heure;
-
-        document.getElementById('timer-minutes-input').value = minute;
-
-        document.getElementById('timer-secondes-input').value = seconde;
-    }
-
-    if (heure == 0 && minute == 0 && seconde == 0) {
-        click.play()
-    }
-    else {
-        timer_refresh();
-    }
-
-
-}
-
 function zero_on_input(name_class){
     var inputVal = document.getElementById(name_class).value;
     if(inputVal < 10) {
@@ -1063,7 +820,6 @@ function zero_on_input(name_class){
 }
 
 //CHRONO
-
 var hoursChrono = 0;
 var minutesChrono = 0;
 var secondsChrono = 0;
@@ -1081,10 +837,11 @@ function start_chrono() {
 }
 
 function step_chrono() {
+    var element = '';
 
     if (!isStoppedChrono) {
         document.getElementById('chrono-step-list').innerHTML = "";
-        stepChrono.push(`${hoursChrono}:${minutesChrono}:${secondsChrono}<br>`);
+        stepChrono.push(`<p class="show_etape">${hoursChrono}:${minutesChrono}:${secondsChrono}</p>`);
         stepChrono.reverse();
         let listStepChrono = "";
         stepChrono.forEach(element => document.getElementById('chrono-step-list').innerHTML += element);
@@ -1145,4 +902,268 @@ function reset_chrono() {
     minutesChrono = 0;
     secondsChrono = 0;
     clearTimeout(timeoutChrono);
+}
+
+
+
+var player_one = 1;
+var player_two = 2;
+var player_actual = 1;
+var isStartedTicTacToe = false;
+var cmptMark = 0;
+
+var player_one_marks = [];
+var player_two_marks = [];
+
+const PLAYER_X_CLASS = 'X'
+const PLAYER_O_CLASS = 'O'
+const WINNING_COMBINATIONS = [
+    ["case1", "case2", "case3"],
+    ["case4", "case5", "case6"],
+    ["case7", "case8", "case9"],
+    ["case1", "case4", "case7"],
+    ["case2", "case5", "case8"],
+    ["case3", "case6", "case9"],
+    ["case1", "case5", "case9"],
+    ["case3", "case5", "case7"]
+]
+
+function call_tic_toc_toe(id) {
+    if (isStartedTicTacToe == false) {
+        start_tic_toc_toe(id);
+    }
+    else {
+        mark_tic_tac_toe(id);
+    }
+}
+
+function check_win_tic_tac_toe(){
+    let winner = false;
+    WINNING_COMBINATIONS.forEach(function (combinaison){
+        let intersection_one = combinaison.filter(x => player_one_marks.includes(x));
+        let intersection_two = combinaison.filter(x => player_two_marks.includes(x));
+
+        if (combinaison.toString() === intersection_one.toString()) {
+            winner = true;
+            document.getElementById("player-winner").innerHTML = "Player 1 win";
+            disabled_tic_tac_toe(true);
+            add_victory_user_tic_tac_toe(player_one);
+            add_defeat_user_tic_tac_toe(player_two);
+            get_score_tic_tac_toe(1);
+            get_score_tic_tac_toe(2);
+            return true;
+        }
+
+        if (combinaison.toString() === intersection_two.toString()) {
+            winner = true;
+            document.getElementById("player-winner").innerHTML = "Player 2 win";
+            disabled_tic_tac_toe(true);
+            add_victory_user_tic_tac_toe(player_two);
+            add_defeat_user_tic_tac_toe(player_one);
+            get_score_tic_tac_toe(1);
+            get_score_tic_tac_toe(2);
+            return true;
+        }
+    })
+
+    if (cmptMark == 9){
+        disabled_tic_tac_toe(true);
+        if (winner == false) {
+            document.getElementById("player-winner").innerHTML = "Draw";
+            add_draw_user_tic_tac_toe(player_one);
+            add_draw_user_tic_tac_toe(player_two);
+            get_score_tic_tac_toe(1);
+            get_score_tic_tac_toe(2);
+        }
+        return true;
+    }
+
+    return false;
+
+
+}
+
+function mark_tic_tac_toe(id) {
+    let check_win = false;
+    if (player_actual == 1) {
+        let mark = PLAYER_X_CLASS;
+        document.getElementById(id).value = mark;
+        document.getElementById(id).disabled = true;
+        player_actual = 2;
+        player_one_marks.push(id);
+        cmptMark++;
+        if (cmptMark >= 5) {
+            check_win = check_win_tic_tac_toe();
+        }
+    }
+    else {
+        let mark = PLAYER_O_CLASS;
+        document.getElementById(id).value = mark;
+        document.getElementById(id).disabled = true;
+        player_actual = 1;
+        player_two_marks.push(id);
+        cmptMark++;
+        if (cmptMark >= 5) {
+            check_win = check_win_tic_tac_toe();
+        }
+
+
+    }
+
+}
+
+function start_tic_toc_toe(id) {
+    isStartedTicTacToe = true;
+    player_actual = 1;
+
+    reload_tic_tac_toe();
+    disabled_tic_tac_toe(false);
+    mark_tic_tac_toe(id);
+}
+
+function reset_tic_tac_toe() {
+    player_actual = 1;
+    cmptMark = 0;
+
+    player_one_marks = [];
+    player_two_marks = [];
+    reload_tic_tac_toe();
+    disabled_tic_tac_toe(false);
+    get_score_tic_tac_toe(1);
+    get_score_tic_tac_toe(2);
+}
+
+function end_tic_toc_toe() {
+    document.getElementsByClassName("case").value = ""
+}
+
+function reload_tic_tac_toe() {
+    document.getElementById("case1").value = "";
+    document.getElementById("case2").value = "";
+    document.getElementById("case3").value = "";
+    document.getElementById("case4").value = "";
+    document.getElementById("case5").value = "";
+    document.getElementById("case6").value = "";
+    document.getElementById("case7").value = "";
+    document.getElementById("case8").value = "";
+    document.getElementById("case9").value = "";
+    document.getElementById("player-winner").innerHTML = "";
+
+}
+
+function disabled_tic_tac_toe(value) {
+    document.getElementById("case1").disabled = value;
+    document.getElementById("case2").disabled = value;
+    document.getElementById("case3").disabled = value;
+    document.getElementById("case4").disabled = value;
+    document.getElementById("case5").disabled = value;
+    document.getElementById("case6").disabled = value;
+    document.getElementById("case7").disabled = value;
+    document.getElementById("case8").disabled = value;
+    document.getElementById("case9").disabled = value;
+}
+
+function add_victory_user_tic_tac_toe(id)
+{
+    const transaction = db.transaction(["users"], "readwrite");
+    const objectStore = transaction.objectStore("users");
+    const request = objectStore.get(id);
+    request.onerror = (event) => {
+        console.log("Error")
+    };
+    request.onsuccess = (event) => {
+        // Do something with the request.result!
+
+        let victories = request.result.victories;
+
+        const data = event.target.result;
+
+        data.victories = victories + 1;
+
+        // Put this updated object back into the database.
+        const requestUpdate = objectStore.put(data);
+        requestUpdate.onerror = (event) => {
+            console.log("Error");
+        };
+        requestUpdate.onsuccess = (event) => {
+            console.log("Success - the data is updated!");
+        };
+    };
+}
+
+function add_defeat_user_tic_tac_toe(id)
+{
+    const transaction = db.transaction(["users"], "readwrite");
+    const objectStore = transaction.objectStore("users");
+    const request = objectStore.get(id);
+    request.onerror = (event) => {
+        console.log("Error")
+    };
+    request.onsuccess = (event) => {
+        // Do something with the request.result!
+        let defeats = request.result.defeats;
+
+        const data = event.target.result;
+
+        data.defeats = defeats + 1;
+
+        // Put this updated object back into the database.
+        const requestUpdate = objectStore.put(data);
+        requestUpdate.onerror = (event) => {
+            console.log("Error");
+        };
+        requestUpdate.onsuccess = (event) => {
+            console.log("Success - the data is updated!");
+        };
+    };
+}
+
+function add_draw_user_tic_tac_toe(id)
+{
+    const transaction = db.transaction(["users"], "readwrite");
+    const objectStore = transaction.objectStore("users");
+    const request = objectStore.get(id);
+    request.onerror = (event) => {
+        console.log("Error")
+    };
+    request.onsuccess = (event) => {
+        // Do something with the request.result!
+        let defeats = request.result.draws;
+
+        const data = event.target.result;
+
+        data.draws = defeats + 1;
+
+        // Put this updated object back into the database.
+        const requestUpdate = objectStore.put(data);
+        requestUpdate.onerror = (event) => {
+            console.log("Error");
+        };
+        requestUpdate.onsuccess = (event) => {
+            console.log("Success - the data is updated!");
+        };
+    };
+}
+
+function get_score_tic_tac_toe(id) {
+    const transaction = db.transaction(["users"], "readonly");
+    const objectStore = transaction.objectStore("users");
+    const request = objectStore.get(id);
+    var victories = 0;
+    var defeats = 0;
+    var draws = 0;
+    request.onerror = (event) => {
+        console.log("Error");
+    };
+    request.onsuccess = (event) => {
+        // Do something with the request.result!
+        victories = request.result.victories;
+        defeats = request.result.defeats;
+        draws = request.result.draws;
+
+        document.getElementById("player-stat"+id).innerHTML = "Victories : " + victories + "  - Defeats : " + defeats + " - Draws : " + draws;
+    };
+
+
+
 }

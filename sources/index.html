@@ -65,43 +65,37 @@
     <!-- TicTacToe app -->
     <div class="app-hide" id="tictactoe-content">
         <div class="tic-tac-toe">
-
-            <div class="score">
-                <!-- Restart -->
-                <div class="restart" id="restart">
-                    <i class="fas fa-redo-alt"></i>
-                </div>
-                <!-- Restart -->
-                <div class="reset_score" id="reset-score">
-                    <i class="fas fa-trash-alt"></i>
-                </div>
+            <div class="player">
+                <div>Player 1</div>
+                <div>Player 2</div>
             </div>
-            <!-- Score -->
-            <div class="score">
-                <div class="player_score">
-                    <div class="player_score_name">Player 1</div>
-                    <div id="player-one-score">0</div>
-                </div>
-                <div class="draw">
-                    <div class="draw_title">Égalité</div>
-                    <div id="draw-score">0</div>
-                </div>
-                <div class="player_score">
-                    <div class="player_score_name">Player 2</div>
-                    <div id="player-two-score">0</div>
-                </div>
+            <div class="player-stat">
+                <div id="player-stat1"></div>
+                <div id="player-stat2"></div>
+            </div>
+            <div id="player-winner">
+
+            </div>
+            <div>
+                <input id="reset-tic-tac-toe"  class="button-reset-ttt" type="button" value="Restart" onclick="reset_tic_tac_toe()">
             </div>
 
-            <div class="board" id="board">
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
+            <div class="tic-tac-toe-game">
+                <div class="row-tic-tac-toe">
+                    <input id="case1" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case1')">
+                    <input id="case2" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case2')">
+                    <input id="case3" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case3')">
+                </div>
+                <div class="row-tic-tac-toe">
+                    <input id="case4" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case4')">
+                    <input id="case5" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case5')">
+                    <input id="case6" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case6')">
+                </div>
+                <div class="row-tic-tac-toe">
+                    <input id="case7" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case7')">
+                    <input id="case8" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case8')">
+                    <input id="case9" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case9')">
+                </div>
             </div>
         </div>
     </div>
@@ -112,75 +106,92 @@
             <div class="container">
                 <h1>Les paramètres</h1><br>
                 
-                <h3>Configuration de l'heure</h3><br>
-                <!-- CURRENT TIME -->
-                <label for="input_current_time">
-                    <input type="checkbox" id="input_current_time" onclick="ShowHideDiv('current_time', this)">  afficher/masquer l'horaire
-                </label><br>
-                <label for="input_hours">
-                    <input type="checkbox" id="input_hours" onclick="ShowHideDiv('hours', this)">  afficher/masquer l'heure
-                </label><br>
-                <label for="input_minutes">
-                    <input type="checkbox" id="input_minutes" onclick="ShowHideDiv('minutes', this)">  afficher/masquer les minutes
-                </label><br>
-                <label for="input_seconds">
-                    <input type="checkbox" id="input_seconds" onclick="ShowHideDiv('seconds', this)">  afficher/masquer les secondes
-                </label><br><br>
+                <div class="settings-bloc"></div>
+                    <div class="settings_container">
+                        <h3>Configuration de l'heure</h3><br>
+                        <!-- CURRENT TIME -->
+                        <label for="input_current_time">
+                            <input type="checkbox" id="input_current_time" onclick="ShowHideDiv('current_time', this)">  afficher/masquer l'horaire
+                        </label><br>
+                        <label for="input_hours">
+                            <input type="checkbox" id="input_hours" onclick="ShowHideDiv('hours', this)">  afficher/masquer l'heure
+                        </label><br>
+                        <label for="input_minutes">
+                            <input type="checkbox" id="input_minutes" onclick="ShowHideDiv('minutes', this)">  afficher/masquer les minutes
+                        </label><br>
+                        <label for="input_seconds">
+                            <input type="checkbox" id="input_seconds" onclick="ShowHideDiv('seconds', this)">  afficher/masquer les secondes
+                        </label>
+                    </div><br>
+                
+                    <div class="settings_container">
+                        <h3>Configuration de la date</h3><br>
+                        <!-- CURRENT DATE -->
+                        <label for="input_current_date">
+                            <input type="checkbox" id="input_current_date" onclick="ShowHideDiv('current_date', this)">  afficher/masquer la date
+                        </label><br>
+                        <label for="input_day">
+                            <input type="checkbox" id="input_day" onclick="ShowHideDiv('day', this)">  afficher/masquer le jour
+                        </label><br>
+                        <label for="input_month">
+                            <input type="checkbox" id="input_month" onclick="ShowHideDiv('month', this)">  afficher/masquer le mois
+                        </label><br>
+                        <label for="input_year">
+                            <input type="checkbox" id="input_year" onclick="ShowHideDiv('year', this)">  afficher/masquer l'année
+                        </label>
+                    </div><br>
 
-                <h3>Configuration de la date</h3><br>
-                <!-- CURRENT DATE -->
-                <label for="input_current_date">
-                    <input type="checkbox" id="input_current_date" onclick="ShowHideDiv('current_date', this)">  afficher/masquer la date
-                </label><br>
-                <label for="input_day">
-                    <input type="checkbox" id="input_day" onclick="ShowHideDiv('day', this)">  afficher/masquer le jour
-                </label><br>
-                <label for="input_month">
-                    <input type="checkbox" id="input_month" onclick="ShowHideDiv('month', this)">  afficher/masquer le mois
-                </label><br>
-                <label for="input_year">
-                    <input type="checkbox" id="input_year" onclick="ShowHideDiv('year', this)">  afficher/masquer l'année
-                </label><br><br>
 
-                <h3>Configuration de la vibration</h3><br>
-                <!-- VIBRATION -->
-                <label for="input_vibration">
-                    <input type="checkbox" id="input_vibration" onclick="ShowHideDiv('vibration', this)">   afficher/masquer l’état de la vibration<br>
-                    <button id="vibrate-on" onclick="vibrationOn()">Activer les vibrations</button>
-                    <button id="vibrate-off" onclick="vibrationOff()">Désactiver les vibrations</button>
-                </label><br><br>
+                    <div class="settings_container">
+                        <h3>Configuration de la vibration</h3><br>
+                        <!-- VIBRATION -->
+                        <label for="input_vibration">
+                            <input type="checkbox" id="input_vibration" onclick="ShowHideDiv('vibration', this)">   afficher/masquer l’état de la vibration<br>
+                            <button id="vibrate-on" onclick="vibrationOn()">Activer les vibrations</button>
+                            <button id="vibrate-off" onclick="vibrationOff()">Désactiver les vibrations</button>
+                        </label>
+                    </div><br>
+                    
+                    <div class="settings_container">
+                        <h3>Configuration de la batterie</h3><br>
+                        <!-- BATTERY LEVEL -->
+                        <label for="input_battery_level">
+                            <input type="checkbox" id="input_battery_level" onclick="ShowHideDiv('battery_level', this)">   afficher/masquer l’état de la batterie
+                        </label>
+                    </div><br>
 
-                <h3>Configuration de la batterie</h3><br>
-                <!-- BATTERY LEVEL -->
-                <label for="input_battery_level">
-                    <input type="checkbox" id="input_battery_level" onclick="ShowHideDiv('battery_level', this)">   afficher/masquer l’état de la batterie
-                </label><br><br>
+                    <div class="settings_container">
+                        <h3>Configuration de la latence réseau</h3><br>     
+                        <!-- LATENCY -->
+                        <label for="input_latency">
+                            <input type="checkbox" id="input_latency" onclick="ShowHideDiv('latency', this)">  afficher/masquer la latence réseau
+                        </label><br>           
+                        <!-- REFRESH TIME FOR NETWORK LATENCY IN SECONDS -->
+                        <label for="input_refresh_latency_seconds">
+                            <input type="checkbox" id="input_refresh_latency_seconds">   délai de rafraichissement en secondes
+                        </label><br>
+                        <!-- CHOOSE URL TO MEASURE LATENCY -->
+                        <input type="text" id="url-latency">
+                        <button onclick="measureLatency()">Mesurer la latence réseau</button>
+                    </div><br>
 
-                <h3>Configuration de la latence réseau</h3><br>     
-                <!-- LATENCY -->
-                <label for="input_latency">
-                    <input type="checkbox" id="input_latency" onclick="ShowHideDiv('latency', this)">  afficher/masquer la latence réseau
-                </label><br>           
-                <!-- REFRESH TIME FOR NETWORK LATENCY IN SECONDS -->
-                <label for="input_refresh_latency_seconds">
-                    <input type="checkbox" id="input_refresh_latency_seconds">   délai de rafraichissement en secondes
-                </label><br>
-                <!-- CHOOSE URL TO MEASURE LATENCY -->
-                <input type="text" id="url-latency">
-                <button onclick="measureLatency()">Mesurer la latence réseau</button><br><br>
+                    <div class="settings_container">
+                        <h3>Configuration de la couleur du thème</h3><br>  
+                        <!-- LIGHT/DARK MODE -->
+                        <label for="input_theme_mode"> Mode de thème: <br><br>
+                            <button id="light-mode" onclick="lightMode()">Light mode</button>
+                            <button id="dark-mode" onclick="darkMode()">Dark mode</button>
+                        </label>
+                    </div><br>
 
-                <h3>Configuration de la couleur du thème</h3><br>  
-                <!-- LIGHT/DARK MODE -->
-                <label for="input_theme_mode"> Mode de thème: <br><br>
-                    <button id="light-mode" onclick="lightMode()">Light mode</button>
-                    <button id="dark-mode" onclick="darkMode()">Dark mode</button>
-                </label><br><br>
+                    <div class="settings_container">
+                        <h3>Vérouiller son écran</h3><br>  
+                        <!-- LOCK/UNLOCK SCREEN -->
+                        <button onclick="lockScreen()">Verrouiller l'écran</button>
+                    </div><br>
 
-                <h3>Vérouiller son écran</h3><br>  
-                <!-- LOCK/UNLOCK SCREEN -->
-                <button onclick="lockScreen()">Verrouiller l'écran</button><br><br>
-
-                <button type="button" id="save" onclick="save()">Sauvegarder</button><br>
+                    <button type="button" id="save" onclick="save()">Sauvegarder</button><br>
+                </div>
           </div>
         </div>
     </div>
@@ -188,28 +199,37 @@
     <!-- Calculatrice app -->
     <div class="app-hide" id="calculatrice-content">
         <div class="calculatrice">
-            <div class="ecran"></div>
-            <div class="touches">
-                <button data-key="8" class="button">C</button>
-                <button data-key="53" class="button">(</button>
-                <button data-key="219" class="button">)</button>
-                <button data-key="111" class="button">/</button>
-                <button data-key="103" class="button">7</button>
-                <button data-key="104" class="button">8</button>
-                <button data-key="105" class="button">9</button>
-                <button data-key="106" class="button">*</button>
-                <button data-key="100" class="button">4</button>
-                <button data-key="101" class="button">5</button>
-                <button data-key="102" class="button">6</button>
-                <button data-key="109" class="button">-</button>
-                <button data-key="97" class="button">1</button>
-                <button data-key="98" class="button">2</button>
-                <button data-key="99" class="button">3</button>
-                <button data-key="107" class="button">+</button>
-                <button data-key="96" class="button">0</button>
-                <button data-key="110" class="button">.</button>
-                <button data-key="13" class="button">=</button>
+            <div class="display">
+                <input class="input" type="text" id="result" readonly>
             </div>
+            <div class="keys">
+                <button class="operator" value="+">+</button>
+                <button class="operator" value="-">-</button>
+                <button class="operator" value="*">&times;</button>
+                <button class="operator" value="/">&divide;</button>
+                <button value="7">7</button>
+                <button value="8">8</button>
+                <button value="9">9</button>
+                <button value="4">4</button>
+                <button value="5">5</button>
+                <button value="6">6</button>
+                <button value="1">1</button>
+                <button value="2">2</button>
+                <button value="3">3</button>
+                <button value="0">0</button>
+                <button value=".">.</button>
+                <button id="clear">C</button>
+                <button id="equal" value="=">=</button>
+            </div>
+            <ul>
+                <li class="all_results">
+                  Résultats
+                  <ol id="results-list">
+                  </ol>
+                </li>
+                <br>
+                <button id="reset-results-list">Réinitialiser</button>
+            </ul>
         </div>
     </div>
 
@@ -224,14 +244,14 @@
             <hr>
             <div class="horloge-bloc">
                 <h1>Chronomètre :</h1>
-                <div id="wrapper">
+                <div class="chrono_container">
                     <div id="chronometre">00:00:00</div>
                     <div id="chrono-step-list"></div>
                     <div id="chrono-buttons">
-                        <button id="chrono-reset" onclick="reset_chrono()">Réinitialiser</button>
-                        <button id="chrono-stop" onclick="stop_chrono()">Arrêter</button>
-                        <button id="chrono-step" onclick="step_chrono()">Etape</button>
-                        <button id="chrono-start" onclick="start_chrono()">Démarrer</button>
+                        <button id="chrono-reset" class="chrono_button" onclick="reset_chrono()">Réinitialiser</button>
+                        <button id="chrono-stop" class="chrono_button" onclick="stop_chrono()">Arrêter</button>
+                        <button id="chrono-step" class="chrono_button" onclick="step_chrono()">Etape</button>
+                        <button id="chrono-start" class="chrono_button"  onclick="start_chrono()">Démarrer</button>
                     </div>
                 </div>
             </div>
@@ -239,16 +259,18 @@
             <hr>
             <div class="horloge-bloc">
                 <h1>Minuteur :</h1>
-                <div id="timer">
-                    <input id="timer-hours-input" style="width: 50px;" type="number" min="0" max="23" value="00" onchange="zero_on_input('timer-hours-input')">
-                    <input id="timer-minutes-input" style="width: 50px;" type="number" min="0" max="59" value="00" onchange="zero_on_input('timer-minutes-input')">
-                    <input id="timer-secondes-input" style="width: 50px;" type="number" min="0" max="59" value="00" onchange="zero_on_input('timer-secondes-input')">
-                </div>
-                <div id="timer-buttons">
-                    <button id="timer-reset" onclick="reset_timer()">Réinitialiser</button>
-                    <button id="timer-stop" onclick="stop_timer()">Arrêter</button>
-                    <button id="timer-start" onclick="start_timer()">Démarrer</button>
-                    <button id="timer-stop-alarme" onclick="stop_alarm_timer()">Arrêter l'alarme</button>
+                <div class="timer_container">
+                    <div class="timer">
+                        <input id="timer-hours-input" style="width: 50px;" type="number" min="0" max="23" value="00" onchange="zero_on_input('timer-hours-input')">
+                        <input id="timer-minutes-input" style="width: 50px;" type="number" min="0" max="59" value="00" onchange="zero_on_input('timer-minutes-input')">
+                        <input id="timer-secondes-input" style="width: 50px;" type="number" min="0" max="59" value="00" onchange="zero_on_input('timer-secondes-input')">
+                    </div>
+                    <div id="timer-buttons">
+                        <button id="timer-reset" onclick="reset_timer()">Réinitialiser</button>
+                        <button id="timer-stop" onclick="stop_timer()">Arrêter</button>
+                        <button id="timer-start" onclick="start_timer()">Démarrer</button>
+                        <button id="timer-stop-alarme" style="display: none;" onclick="stop_alarm_timer()">Arrêter l'alarme</button>
+                    </div>
                 </div>
             </div>
 
