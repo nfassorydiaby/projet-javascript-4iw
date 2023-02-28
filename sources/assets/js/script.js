@@ -548,7 +548,7 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 
 // Latency
 function latency(id) {
-    if (JSON.parse(localStorage.getItem("input_refresh_latency_seconds")) === true) {
+    if (JSON.parse(localStorage.getItem("input_refresh_latency_seconds")) === false) {
         setInterval(() => {
             let startTime = new Date();
             let url = localStorage.getItem("url_latency");
@@ -916,43 +916,34 @@ function callTictactoe() {
 
 // Calculatrice
 function callCalculatrice() {
-    // DOM
-    const touches = [...document.querySelectorAll('.button')];
-    const listKeycode = touches.map(touch => touch.dataset.key);
-    const ecran = document.querySelector('.ecran');
+    const result = document.getElementById("result");
+    const keys = document.querySelectorAll(".keys button");
+    const clear = document.getElementById("clear");
+    var resulsList = [];
 
-    document.addEventListener('keydown', (e) => {
-        const value = e.key.toString();
-    });
+    // Ajout des événements aux boutons
+    keys.forEach(key => {
+        key.addEventListener("click", () => {
+            if (key.value === "C") {
+                result.value = "";
+            } else if (key.value === "=") {
+                const calcul = eval(result.value);
+                result.value = calcul;
 
-    document.addEventListener('click', (e) => {
-        const value = e.target.dataset.key;
-        calculer(value);
-    });
-
-    let total = 0;
-    let result = 0;
-    let previousResults = [];
-
-    const calculer = (value) => {
-        if (listKeycode.includes(value)) {
-            switch(value) {
-                case '8':
-                    ecran.textContent = "";
-                    result = 0;
-                    break;
-                case '13':
-                    total += result;
-                    const calcul = eval(ecran.textContent);
-                    ecran.textContent = calcul;
-                    break;
-                default:
-                    const indexKeycode = listKeycode.indexOf(value);
-                    const touche = touches[indexKeycode];
-                    ecran.textContent += touche.innerHTML;
+                document.getElementById('results-list').innerHTML = "";
+                resulsList.push(`<li>${calcul}</li><br>`);
+                resulsList.forEach(element => document.getElementById('results-list').innerHTML += element);
+                document.getElementById('results-list').innerHTML += element
+            } else {
+                result.value += key.value;
             }
-        }
-    }
+        });
+    });
+
+    // Effacement du résultat
+    clear.addEventListener("click", () => {
+        result.value = "";
+    });
 }
 
 // Horloge

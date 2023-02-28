@@ -188,28 +188,35 @@
     <!-- Calculatrice app -->
     <div class="app-hide" id="calculatrice-content">
         <div class="calculatrice">
-            <div class="ecran"></div>
-            <div class="touches">
-                <button data-key="8" class="button">C</button>
-                <button data-key="53" class="button">(</button>
-                <button data-key="219" class="button">)</button>
-                <button data-key="111" class="button">/</button>
-                <button data-key="103" class="button">7</button>
-                <button data-key="104" class="button">8</button>
-                <button data-key="105" class="button">9</button>
-                <button data-key="106" class="button">*</button>
-                <button data-key="100" class="button">4</button>
-                <button data-key="101" class="button">5</button>
-                <button data-key="102" class="button">6</button>
-                <button data-key="109" class="button">-</button>
-                <button data-key="97" class="button">1</button>
-                <button data-key="98" class="button">2</button>
-                <button data-key="99" class="button">3</button>
-                <button data-key="107" class="button">+</button>
-                <button data-key="96" class="button">0</button>
-                <button data-key="110" class="button">.</button>
-                <button data-key="13" class="button">=</button>
+            <div class="display">
+                <input class="input" type="text" id="result" readonly>
             </div>
+            <div class="keys">
+                <button class="operator" value="+">+</button>
+                <button class="operator" value="-">-</button>
+                <button class="operator" value="*">&times;</button>
+                <button class="operator" value="/">&divide;</button>
+                <button value="7">7</button>
+                <button value="8">8</button>
+                <button value="9">9</button>
+                <button value="4">4</button>
+                <button value="5">5</button>
+                <button value="6">6</button>
+                <button value="1">1</button>
+                <button value="2">2</button>
+                <button value="3">3</button>
+                <button value="0">0</button>
+                <button value=".">.</button>
+                <button id="clear">C</button>
+                <button id="equal" value="=">=</button>
+            </div>
+            <ul class="main">
+                <li class="all_results">
+                  Résultats
+                  <ol id="results-list">
+                  </ol>
+                </li>
+              </ul>
         </div>
     </div>
 
