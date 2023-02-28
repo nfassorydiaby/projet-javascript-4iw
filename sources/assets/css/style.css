@@ -477,3 +477,33 @@ input[type=password] {
     font-size: 24px;
 }
 
+.new-tic-tac-toe{
+    width: 100%;
+    height: 100%;
+    /*background-color: #04AA6D;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.tic-tac-toe{
+    width: 100%;
+}
+
+.row-tic-tac-toe {
+    max-width: 100%;
+    width: 100%;
+    /* background-color: #04AA6D; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.col-tic-tac-toe {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 200px;
+    height: 100px;
+}

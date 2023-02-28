@@ -14,11 +14,31 @@ const con = new Audio("assets/music/alert.wav")
 const okay = new Audio("assets/music/positive.wav")
 const no = new Audio("assets/music/negative.wav")
 
+var db = ''
+const openRequest = indexedDB.open('db',1)
+
+openRequest.onupgradeneeded = function () {
+    db = openRequest.result;
+
+    if(!db.objectStoreNames.contains('users')){
+        db.createObjectStore('users', {keyPath: 'id'})
+    }
+}
+
+openRequest.onerror = function () {
+    alert("Impossible d'accéder à IndexedDB");
+}
+
+openRequest.onsuccess = function () {
+    db = openRequest.result;
+}
+
 //Operations
 /* Reseting window */
 close(os_window)
 /* Creating apps */
 create_app("TicTacToe", "assets/images/apps/tictactoe.png", "tictactoe", "tictactoe-content")
+create_app("NewTicTacToe", "assets/images/apps/tictactoe.png", "tictactoe", "new-tictactoe-content")
 create_app ("Settings", "assets/images/apps/settings.png", "settings", "settings-content")
 create_app("Calculatrice", "assets/images/apps/calculatrice.png", "calculatrice", "calculatrice-content")
 create_app("Horloge", "assets/images/apps/horloge.png", "horloge", "horloge-content")
