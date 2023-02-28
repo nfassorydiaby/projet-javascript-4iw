@@ -1,30 +1,11 @@
-## Requirements
+## Description du projet:
 
-- Docker
-- Docker Compose
+Vous êtes en mission pour une entreprise qui conçoit des systèmes d’exploitations à destination des appareils mobiles.
+Ces derniers souhaitent disposer d’un prototype pour le développement de leur futur système d’exploitation. Ils hésitent
+encore entre créer une application Web ou développer sur un langage plus bas niveau. Votre rôle est de leur montrer que
+le navigateur est capable d’être utilisé comme un vrai système d’exploitation.
 
-## Usage
+## Auteurs:
 
-### Docker Compose Services Startup
-
-```bash
-docker-compose up --detach
-```
-
-### Node Packages Installation
-
-```bash
-docker-compose exec node npm install
-```
-
-### Development Server Startup
-
-```bash
-docker-compose exec node npm start
-```
-
-### Docker Compose Services Shutdown
-
-```bash
-docker-compose down --remove-orphans --volumes --timeout 0
-```# projet-javascript-4iw
+- Nfassory Diaby
+- Maxime Lao
