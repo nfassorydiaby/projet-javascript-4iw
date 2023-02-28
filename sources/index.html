@@ -112,75 +112,92 @@
             <div class="container">
                 <h1>Les paramètres</h1><br>
                 
-                <h3>Configuration de l'heure</h3><br>
-                <!-- CURRENT TIME -->
-                <label for="input_current_time">
-                    <input type="checkbox" id="input_current_time" onclick="ShowHideDiv('current_time', this)">  afficher/masquer l'horaire
-                </label><br>
-                <label for="input_hours">
-                    <input type="checkbox" id="input_hours" onclick="ShowHideDiv('hours', this)">  afficher/masquer l'heure
-                </label><br>
-                <label for="input_minutes">
-                    <input type="checkbox" id="input_minutes" onclick="ShowHideDiv('minutes', this)">  afficher/masquer les minutes
-                </label><br>
-                <label for="input_seconds">
-                    <input type="checkbox" id="input_seconds" onclick="ShowHideDiv('seconds', this)">  afficher/masquer les secondes
-                </label><br><br>
+                <div class="settings-bloc"></div>
+                    <div class="settings_container">
+                        <h3>Configuration de l'heure</h3><br>
+                        <!-- CURRENT TIME -->
+                        <label for="input_current_time">
+                            <input type="checkbox" id="input_current_time" onclick="ShowHideDiv('current_time', this)">  afficher/masquer l'horaire
+                        </label><br>
+                        <label for="input_hours">
+                            <input type="checkbox" id="input_hours" onclick="ShowHideDiv('hours', this)">  afficher/masquer l'heure
+                        </label><br>
+                        <label for="input_minutes">
+                            <input type="checkbox" id="input_minutes" onclick="ShowHideDiv('minutes', this)">  afficher/masquer les minutes
+                        </label><br>
+                        <label for="input_seconds">
+                            <input type="checkbox" id="input_seconds" onclick="ShowHideDiv('seconds', this)">  afficher/masquer les secondes
+                        </label>
+                    </div><br>
+                
+                    <div class="settings_container">
+                        <h3>Configuration de la date</h3><br>
+                        <!-- CURRENT DATE -->
+                        <label for="input_current_date">
+                            <input type="checkbox" id="input_current_date" onclick="ShowHideDiv('current_date', this)">  afficher/masquer la date
+                        </label><br>
+                        <label for="input_day">
+                            <input type="checkbox" id="input_day" onclick="ShowHideDiv('day', this)">  afficher/masquer le jour
+                        </label><br>
+                        <label for="input_month">
+                            <input type="checkbox" id="input_month" onclick="ShowHideDiv('month', this)">  afficher/masquer le mois
+                        </label><br>
+                        <label for="input_year">
+                            <input type="checkbox" id="input_year" onclick="ShowHideDiv('year', this)">  afficher/masquer l'année
+                        </label>
+                    </div><br>
 
-                <h3>Configuration de la date</h3><br>
-                <!-- CURRENT DATE -->
-                <label for="input_current_date">
-                    <input type="checkbox" id="input_current_date" onclick="ShowHideDiv('current_date', this)">  afficher/masquer la date
-                </label><br>
-                <label for="input_day">
-                    <input type="checkbox" id="input_day" onclick="ShowHideDiv('day', this)">  afficher/masquer le jour
-                </label><br>
-                <label for="input_month">
-                    <input type="checkbox" id="input_month" onclick="ShowHideDiv('month', this)">  afficher/masquer le mois
-                </label><br>
-                <label for="input_year">
-                    <input type="checkbox" id="input_year" onclick="ShowHideDiv('year', this)">  afficher/masquer l'année
-                </label><br><br>
 
-                <h3>Configuration de la vibration</h3><br>
-                <!-- VIBRATION -->
-                <label for="input_vibration">
-                    <input type="checkbox" id="input_vibration" onclick="ShowHideDiv('vibration', this)">   afficher/masquer l’état de la vibration<br>
-                    <button id="vibrate-on" onclick="vibrationOn()">Activer les vibrations</button>
-                    <button id="vibrate-off" onclick="vibrationOff()">Désactiver les vibrations</button>
-                </label><br><br>
+                    <div class="settings_container">
+                        <h3>Configuration de la vibration</h3><br>
+                        <!-- VIBRATION -->
+                        <label for="input_vibration">
+                            <input type="checkbox" id="input_vibration" onclick="ShowHideDiv('vibration', this)">   afficher/masquer l’état de la vibration<br>
+                            <button id="vibrate-on" onclick="vibrationOn()">Activer les vibrations</button>
+                            <button id="vibrate-off" onclick="vibrationOff()">Désactiver les vibrations</button>
+                        </label>
+                    </div><br>
+                    
+                    <div class="settings_container">
+                        <h3>Configuration de la batterie</h3><br>
+                        <!-- BATTERY LEVEL -->
+                        <label for="input_battery_level">
+                            <input type="checkbox" id="input_battery_level" onclick="ShowHideDiv('battery_level', this)">   afficher/masquer l’état de la batterie
+                        </label>
+                    </div><br>
 
-                <h3>Configuration de la batterie</h3><br>
-                <!-- BATTERY LEVEL -->
-                <label for="input_battery_level">
-                    <input type="checkbox" id="input_battery_level" onclick="ShowHideDiv('battery_level', this)">   afficher/masquer l’état de la batterie
-                </label><br><br>
+                    <div class="settings_container">
+                        <h3>Configuration de la latence réseau</h3><br>     
+                        <!-- LATENCY -->
+                        <label for="input_latency">
+                            <input type="checkbox" id="input_latency" onclick="ShowHideDiv('latency', this)">  afficher/masquer la latence réseau
+                        </label><br>           
+                        <!-- REFRESH TIME FOR NETWORK LATENCY IN SECONDS -->
+                        <label for="input_refresh_latency_seconds">
+                            <input type="checkbox" id="input_refresh_latency_seconds">   délai de rafraichissement en secondes
+                        </label><br>
+                        <!-- CHOOSE URL TO MEASURE LATENCY -->
+                        <input type="text" id="url-latency">
+                        <button onclick="measureLatency()">Mesurer la latence réseau</button>
+                    </div><br>
 
-                <h3>Configuration de la latence réseau</h3><br>     
-                <!-- LATENCY -->
-                <label for="input_latency">
-                    <input type="checkbox" id="input_latency" onclick="ShowHideDiv('latency', this)">  afficher/masquer la latence réseau
-                </label><br>           
-                <!-- REFRESH TIME FOR NETWORK LATENCY IN SECONDS -->
-                <label for="input_refresh_latency_seconds">
-                    <input type="checkbox" id="input_refresh_latency_seconds">   délai de rafraichissement en secondes
-                </label><br>
-                <!-- CHOOSE URL TO MEASURE LATENCY -->
-                <input type="text" id="url-latency">
-                <button onclick="measureLatency()">Mesurer la latence réseau</button><br><br>
+                    <div class="settings_container">
+                        <h3>Configuration de la couleur du thème</h3><br>  
+                        <!-- LIGHT/DARK MODE -->
+                        <label for="input_theme_mode"> Mode de thème: <br><br>
+                            <button id="light-mode" onclick="lightMode()">Light mode</button>
+                            <button id="dark-mode" onclick="darkMode()">Dark mode</button>
+                        </label>
+                    </div><br>
 
-                <h3>Configuration de la couleur du thème</h3><br>  
-                <!-- LIGHT/DARK MODE -->
-                <label for="input_theme_mode"> Mode de thème: <br><br>
-                    <button id="light-mode" onclick="lightMode()">Light mode</button>
-                    <button id="dark-mode" onclick="darkMode()">Dark mode</button>
-                </label><br><br>
+                    <div class="settings_container">
+                        <h3>Vérouiller son écran</h3><br>  
+                        <!-- LOCK/UNLOCK SCREEN -->
+                        <button onclick="lockScreen()">Verrouiller l'écran</button>
+                    </div><br>
 
-                <h3>Vérouiller son écran</h3><br>  
-                <!-- LOCK/UNLOCK SCREEN -->
-                <button onclick="lockScreen()">Verrouiller l'écran</button><br><br>
-
-                <button type="button" id="save" onclick="save()">Sauvegarder</button><br>
+                    <button type="button" id="save" onclick="save()">Sauvegarder</button><br>
+                </div>
           </div>
         </div>
     </div>
@@ -233,14 +250,14 @@
             <hr>
             <div class="horloge-bloc">
                 <h1>Chronomètre :</h1>
-                <div id="wrapper">
+                <div class="chrono_container">
                     <div id="chronometre">00:00:00</div>
                     <div id="chrono-step-list"></div>
                     <div id="chrono-buttons">
-                        <button id="chrono-reset" onclick="reset_chrono()">Réinitialiser</button>
-                        <button id="chrono-stop" onclick="stop_chrono()">Arrêter</button>
-                        <button id="chrono-step" onclick="step_chrono()">Etape</button>
-                        <button id="chrono-start" onclick="start_chrono()">Démarrer</button>
+                        <button id="chrono-reset" class="chrono_button" onclick="reset_chrono()">Réinitialiser</button>
+                        <button id="chrono-stop" class="chrono_button" onclick="stop_chrono()">Arrêter</button>
+                        <button id="chrono-step" class="chrono_button" onclick="step_chrono()">Etape</button>
+                        <button id="chrono-start" class="chrono_button"  onclick="start_chrono()">Démarrer</button>
                     </div>
                 </div>
             </div>
@@ -248,16 +265,18 @@
             <hr>
             <div class="horloge-bloc">
                 <h1>Minuteur :</h1>
-                <div id="timer">
-                    <input id="timer-hours-input" style="width: 50px;" type="number" min="0" max="23" value="00" onchange="zero_on_input('timer-hours-input')">
-                    <input id="timer-minutes-input" style="width: 50px;" type="number" min="0" max="59" value="00" onchange="zero_on_input('timer-minutes-input')">
-                    <input id="timer-secondes-input" style="width: 50px;" type="number" min="0" max="59" value="00" onchange="zero_on_input('timer-secondes-input')">
-                </div>
-                <div id="timer-buttons">
-                    <button id="timer-reset" onclick="reset_timer()">Réinitialiser</button>
-                    <button id="timer-stop" onclick="stop_timer()">Arrêter</button>
-                    <button id="timer-start" onclick="start_timer()">Démarrer</button>
-                    <button id="timer-stop-alarme" onclick="stop_alarm_timer()">Arrêter l'alarme</button>
+                <div class="timer_container">
+                    <div class="timer">
+                        <input id="timer-hours-input" style="width: 50px;" type="number" min="0" max="23" value="00" onchange="zero_on_input('timer-hours-input')">
+                        <input id="timer-minutes-input" style="width: 50px;" type="number" min="0" max="59" value="00" onchange="zero_on_input('timer-minutes-input')">
+                        <input id="timer-secondes-input" style="width: 50px;" type="number" min="0" max="59" value="00" onchange="zero_on_input('timer-secondes-input')">
+                    </div>
+                    <div id="timer-buttons">
+                        <button id="timer-reset" onclick="reset_timer()">Réinitialiser</button>
+                        <button id="timer-stop" onclick="stop_timer()">Arrêter</button>
+                        <button id="timer-start" onclick="start_timer()">Démarrer</button>
+                        <button id="timer-stop-alarme" onclick="stop_alarm_timer()">Arrêter l'alarme</button>
+                    </div>
                 </div>
             </div>
 

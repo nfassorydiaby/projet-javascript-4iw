@@ -19,7 +19,7 @@ const no = new Audio("assets/music/negative.wav")
 close(os_window)
 /* Creating apps */
 create_app("TicTacToe", "assets/images/apps/tictactoe.png", "tictactoe", "tictactoe-content")
-create_app ("Settings", "assets/images/apps/settings.png", "settings", "settings-content")
+create_app ("Paramètres", "assets/images/apps/settings.png", "settings", "settings-content")
 create_app("Calculatrice", "assets/images/apps/calculatrice.png", "calculatrice", "calculatrice-content")
 create_app("Horloge", "assets/images/apps/horloge.png", "horloge", "horloge-content")
 
@@ -515,6 +515,8 @@ function vibrationOn() {
     document.getElementById("vibration").innerHTML = "Activé";
     document.getElementById("vibrate-on").disabled = true;
     document.getElementById("vibrate-off").disabled = false;
+    document.querySelector("#vibrate-on").style.background = "dimgray";
+    document.querySelector("#vibrate-off").style.background = "#04AA6D";
 }
 
 function vibrationOff() {
@@ -522,6 +524,8 @@ function vibrationOff() {
     document.getElementById("vibration").innerHTML = "Désactivé";  
     document.getElementById("vibrate-on").disabled = false;
     document.getElementById("vibrate-off").disabled = true;
+    document.querySelector("#vibrate-on").style.background = "#04AA6D";
+    document.querySelector("#vibrate-off").style.background = "dimgray";
 };
 
 function vibrate() {
@@ -656,9 +660,13 @@ function local_storage_values() {
     if (JSON.parse(localStorage.getItem("vibrationEnabled")) === true) {
         document.getElementById("vibrate-on").disabled = true;
         document.getElementById("vibrate-off").disabled = false;
+        document.querySelector("#vibrate-on").style.background = "dimgray";
+        document.querySelector("#vibrate-off").style.background = "#04AA6D";
     } else {
         document.getElementById("vibrate-on").disabled = false;
         document.getElementById("vibrate-off").disabled = true;
+        document.querySelector("#vibrate-on").style.background = "#04AA6D";
+        document.querySelector("#vibrate-off").style.background = "dimgray";
     }
 
     if (JSON.parse(localStorage.getItem("themeMode")) === true) {
@@ -666,11 +674,15 @@ function local_storage_values() {
         document.getElementById("dark-mode").disabled = false;
         document.querySelector(".br-os-window .app").style.background = "white";
         document.querySelector(".br-os-window .app").style.color = "black";
+        document.querySelector("#light-mode").style.background = "dimgray";
+        document.querySelector("#dark-mode").style.background = "#04AA6D";
     } else {
         document.getElementById("light-mode").disabled = false;
         document.getElementById("dark-mode").disabled = true;
         document.querySelector(".br-os-window .app").style.background = "dimgray";
         document.querySelector(".br-os-window .app").style.color = "white";
+        document.querySelector("#dark-mode").style.background = "dimgray";
+        document.querySelector("#light-mode").style.background = "#04AA6D";
     }
 
     if (JSON.parse(localStorage.getItem("url_latency")) != null) {
@@ -767,7 +779,7 @@ function savedData() {
 savedData();
 
 // Verrouiller son écran et déverrouiller
-let password = "secret";
+let password = "unlock";
 let isLocked = false;
 
 function lockScreen() {
@@ -792,6 +804,8 @@ function lightMode() {
     document.getElementById("dark-mode").disabled = false;
     document.querySelector(".br-os-window .app").style.background = "white";
     document.querySelector(".br-os-window .app").style.color = "black";
+    document.querySelector("#light-mode").style.background = "dimgray";
+    document.querySelector("#dark-mode").style.background = "#04AA6D";
 }
 
 function darkMode() {
@@ -800,6 +814,8 @@ function darkMode() {
     document.getElementById("dark-mode").disabled = true;
     document.querySelector(".br-os-window .app").style.background = "dimgray";
     document.querySelector(".br-os-window .app").style.color = "white";
+    document.querySelector("#dark-mode").style.background = "dimgray";
+    document.querySelector("#light-mode").style.background = "#04AA6D";
 };
 
 
@@ -956,17 +972,9 @@ function callCalculatrice() {
     });
 
     reset.addEventListener('click', () => {
-        // Appelle la fonction "vibrate"
-        reset_results_list(resulsList, 'results-list');
+        resulsList = [];
+        document.getElementById('results-list').innerHTML = "";
     });
-
-    
-}
-
-// Reset results list
-function reset_results_list(resulsList, id) {
-    resulsList = [];
-    document.getElementById(id).innerHTML = "";
 }
 
 // Horloge
@@ -1095,10 +1103,11 @@ function start_chrono() {
 }
 
 function step_chrono() {
+    var element = '';
 
     if (!isStoppedChrono) {
         document.getElementById('chrono-step-list').innerHTML = "";
-        stepChrono.push(`${hoursChrono}:${minutesChrono}:${secondsChrono}<br>`);
+        stepChrono.push(`<p class="show_etape">${hoursChrono}:${minutesChrono}:${secondsChrono}</p>`);
         stepChrono.reverse();
         let listStepChrono = "";
         stepChrono.forEach(element => document.getElementById('chrono-step-list').innerHTML += element);
