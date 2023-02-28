@@ -216,169 +216,6 @@ a {
     overflow: hidden;
 }
 
-.tic-tac-toe {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    background-size: cover;
-    background-position: center;
-}
-
-.tic-tac-toe .board {
-    width: 100vw;
-    height: 100vh;
-    display: grid;
-    justify-content: center;
-    align-content: center;
-    justify-items: center;
-    align-items: center;
-    grid-template-columns: repeat(3, auto);
-}
-
-.tic-tac-toe .board .cell {
-    width: var(--cell-size);   
-    height: var(--cell-size);
-    border: 2px solid rgb(63, 119, 192);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-}
-
-.tic-tac-toe .board .cell.x {
-    background: var(--cross);
-    background-size: var(--mark-size);
-    /* white glow */
-    filter: drop-shadow(0 0 10px white);
-    background-position: center;
-    background-repeat: no-repeat;
-    cursor: not-allowed;
-}
-
-.tic-tac-toe .board .cell.o {
-    background: var(--circle);
-    background-size: var(--mark-size);
-    filter: drop-shadow(0 0 10px red);
-    background-position: center;
-    background-repeat: no-repeat;
-    cursor: not-allowed;
-}
-
-.tic-tac-toe .board.x .cell:hover:not(.x):not(.o) {
-    background: var(--cross);
-    background-size: var(--mark-size);
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.4;
-    cursor: pointer;
-}
-
-.tic-tac-toe .board.o .cell:hover:not(.x):not(.o) {
-    background: var(--circle);
-    background-size: var(--mark-size);
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.4;
-    cursor: pointer;
-}
-
-.tic-tac-toe .board .cell:first-child,
-.tic-tac-toe .board .cell:nth-child(2),
-.tic-tac-toe .board .cell:nth-child(3) {
-    border-top: none;
-}
-
-.tic-tac-toe .board .cell:nth-child(3n+1) {
-    border-left: none;
-}
-
-.tic-tac-toe .board .cell:nth-child(3n+3) {
-    border-right: none;
-}
-
-.tic-tac-toe .board .cell:last-child,
-.tic-tac-toe .board .cell:nth-child(7),
-.tic-tac-toe .board .cell:nth-child(8) {
-    border-bottom: none;
-}
-
-/*** SCORE ***/
-
-.score {
-    width: 100%;
-    height: 20%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
-    color: rgb(51, 131, 223);
-}
-
-.player_score {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.player_score .player_score_name {
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.draw {
-    color: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.draw .draw_title {
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-/*** BUTTONS ***/
-#restart, #reset-score {
-    align-self: flex-start;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
-    color: rgb(51, 131, 223);
-    padding: 15px;
-    cursor: pointer;
-}
-
-/*** RESPONSIVE ****/
-@media screen and (max-width: 768px) {
-    .player_score .player_score_name {
-        font-size: 1rem;
-    }
-    .tic-tac-toe .score {
-        font-size: 1rem;
-    }
-    .draw .draw_title {
-        font-size: 1rem;
-    }
-    :root {
-        --mark-size: 50px;
-        --cell-size: 120px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    :root {
-        --mark-size: 35px;
-        --cell-size: 80px;
-    }
-    #restart {
-        font-size: 1rem;
-    }
-}
-
 
 .btn {
     border: none;
@@ -505,36 +342,6 @@ input[type=password] {
 	background-color: #fff;
 	box-shadow: 0 2px 2px rgba(0,0,0,0.1);
 }
-.new-tic-tac-toe{
-    width: 100%;
-    height: 100%;
-    /*background-color: #04AA6D;*/
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.tic-tac-toe{
-    width: 100%;
-}
-
-.row-tic-tac-toe {
-    max-width: 100%;
-    width: 100%;
-    /* background-color: #04AA6D; */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.col-tic-tac-toe {
-    border: 1px solid black;
-    border-radius: 10px;
-    width: 200px;
-    height: 100px;
-}
 
 .calculatrice button.operator {
 	background-color: #f1f1f1;
@@ -588,4 +395,90 @@ li {
 	#equal {
 		font-size: 20px;
 	}
+}
+
+/*TIC TAC TOE*/
+.tic-tac-toe{
+    /*background-color: #04AA6D;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.player{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.player-stat{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.row-tic-tac-toe {
+    /* background-color: #04AA6D; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.col-tic-tac-toe {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 200px;
+    height: 100px;
+    cursor: pointer;
+    font-size: 50px;
+    text-align: center;
+}
+
+.disable-case {
+    background-size: var(--mark-size);
+    filter: drop-shadow(0 0 10px white);
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: not-allowed;
+
+}
+
+.button-reset-ttt {
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    background-color: #04AA6D;
+    color: white;
+}
+
+#player-winner {
+    font-size: 24px;
+}
+
+@media screen and (min-width: 700px) and (max-width:1000px)  {
+    .col-tic-tac-toe {
+        width: 100px;
+        height: 50px;
+        font-size: 30px;
+
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .col-tic-tac-toe {
+        width: 50px;
+        height: 25px;
+        font-size: 20px;
+
+    }
 }

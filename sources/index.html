@@ -65,109 +65,38 @@
     <!-- TicTacToe app -->
     <div class="app-hide" id="tictactoe-content">
         <div class="tic-tac-toe">
-
-            <div class="score">
-                <!-- Restart -->
-                <div class="restart" id="restart">
-                    <i class="fas fa-redo-alt"></i>
-                </div>
-                <!-- Restart -->
-                <div class="reset_score" id="reset-score">
-                    <i class="fas fa-trash-alt"></i>
-                </div>
-            </div>
-            <!-- Score -->
-            <div class="score">
-                <div class="player_score">
-                    <div class="player_score_name">Player 1</div>
-                    <div id="player-one-score">0</div>
-                </div>
-                <div class="draw">
-                    <div class="draw_title">Égalité</div>
-                    <div id="draw-score">0</div>
-                </div>
-                <div class="player_score">
-                    <div class="player_score_name">Player 2</div>
-                    <div id="player-two-score">0</div>
-                </div>
-            </div>
-
-            <div class="board" id="board">
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-                <div class="cell" data-cell></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TicTacToe app -->
-    <div class="app-hide" id="new-tictactoe-content">
-        <div class="new-tic-tac-toe">
             <div class="player">
-                Player 1 - Player 2
+                <div>Player 1</div>
+                <div>Player 2</div>
             </div>
+            <div class="player-stat">
+                <div id="player-stat1"></div>
+                <div id="player-stat2"></div>
+            </div>
+            <div id="player-winner">
 
+            </div>
+            <div>
+                <input id="reset-tic-tac-toe"  class="button-reset-ttt" type="button" value="Restart" onclick="reset_tic_tac_toe()">
+            </div>
 
             <div class="tic-tac-toe-game">
                 <div class="row-tic-tac-toe">
-                    <div id="case1" class="col-tic-tac-toe"></div>
-                    <div id="case2" class="col-tic-tac-toe"></div>
-                    <div id="case3" class="col-tic-tac-toe"></div>
+                    <input id="case1" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case1')">
+                    <input id="case2" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case2')">
+                    <input id="case3" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case3')">
                 </div>
                 <div class="row-tic-tac-toe">
-                    <div id="case4" class="col-tic-tac-toe"></div>
-                    <div id="case5" class="col-tic-tac-toe"></div>
-                    <div id="case6" class="col-tic-tac-toe"></div>
+                    <input id="case4" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case4')">
+                    <input id="case5" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case5')">
+                    <input id="case6" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case6')">
                 </div>
                 <div class="row-tic-tac-toe">
-                    <div id="case7" class="col-tic-tac-toe"></div>
-                    <div id="case8" class="col-tic-tac-toe"></div>
-                    <div id="case9" class="col-tic-tac-toe"></div>
+                    <input id="case7" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case7')">
+                    <input id="case8" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case8')">
+                    <input id="case9" class="col-tic-tac-toe case" onclick="call_tic_toc_toe('case9')">
                 </div>
             </div>
-<!--            <div class="score">-->
-<!--                &lt;!&ndash; Restart &ndash;&gt;-->
-<!--                <div class="restart" id="restart">-->
-<!--                    <i class="fas fa-redo-alt"></i>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Restart &ndash;&gt;-->
-<!--                <div class="reset_score" id="reset-score">-->
-<!--                    <i class="fas fa-trash-alt"></i>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; Score &ndash;&gt;-->
-<!--            <div class="score">-->
-<!--                <div class="player_score">-->
-<!--                    <div class="player_score_name">Player 1</div>-->
-<!--                    <div id="player-one-score">0</div>-->
-<!--                </div>-->
-<!--                <div class="draw">-->
-<!--                    <div class="draw_title">Égalité</div>-->
-<!--                    <div id="draw-score">0</div>-->
-<!--                </div>-->
-<!--                <div class="player_score">-->
-<!--                    <div class="player_score_name">Player 2</div>-->
-<!--                    <div id="player-two-score">0</div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="board" id="board">-->
-<!--                <div class="cell" data-cell></div>-->
-<!--                <div class="cell" data-cell></div>-->
-<!--                <div class="cell" data-cell></div>-->
-<!--                <div class="cell" data-cell></div>-->
-<!--                <div class="cell" data-cell></div>-->
-<!--                <div class="cell" data-cell></div>-->
-<!--                <div class="cell" data-cell></div>-->
-<!--                <div class="cell" data-cell></div>-->
-<!--                <div class="cell" data-cell></div>-->
-<!--            </div>-->
         </div>
     </div>
 
