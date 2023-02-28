@@ -111,7 +111,6 @@ function window_open (id, id_content) {
 
     open(os_window)
     local_storage_values();
-    callTictactoe();
     callCalculatrice();
     callVibration();
     reset_tic_tac_toe();
@@ -752,124 +751,6 @@ function darkMode() {
 };
 
 
-// TicTacToe
-function callTictactoe() {
-    //Tic Tac Toe
-    const allCells = document.querySelectorAll('[data-cell]');
-    const playerOneScrore = document.getElementById('player-one-score');
-    const playerTwoScrore = document.getElementById('player-two-score');
-    const drawScore = document.getElementById('draw-score');
-    const board = document.getElementById('board')
-    const restartButton = document.getElementById('restart')
-    const resetButton = document.getElementById('reset-score')
-    const winningCombi = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ]
-    const o_class = 'o';
-    const x_class = 'x';
-    let o_turn;
-
-    startGame();
-    restartButton.addEventListener('click', restartGame);
-    resetButton.addEventListener('click', resetScrore);
-
-    function restartGame() {
-        startGame();
-    }
-
-    function resetScrore() {
-        playerOneScrore.innerText = 0;
-        playerTwoScrore.innerText = 0;
-        drawScore.innerText = 0;
-        localStorage.setItem("draw_score", 0);
-        localStorage.setItem("player_two_score", 0);
-        localStorage.setItem("player_one_score", 0);
-    }
-
-    function startGame() {
-        o_turn = false;
-        allCells.forEach(cell => {
-            cell.classList.remove(o_class);
-            cell.classList.remove(x_class);
-            cell.removeEventListener('click', handleClick);
-            cell.addEventListener('click', handleClick, { once: true })
-        })
-        setBoardHoverClass();
-    }
-
-    function handleClick(e) {
-        const cell = e.target;
-        const currentClass = o_turn ? o_class : x_class;
-        //place mark
-        placeMark(cell, currentClass);
-        if (checkWin(currentClass)) {
-            endGame(false);
-        } else if (isDraw()) {
-            endGame(true);
-        } else {
-            //switch turns
-            swapTurns();
-            //set board hover class
-            setBoardHoverClass();
-        }
-    }
-
-    function endGame(draw) {
-        if (draw) {
-            drawScore.innerText = parseInt(drawScore.innerText) + 1;
-            localStorage.setItem("draw_score", drawScore.innerText);
-        } else {
-            if (o_turn) {
-                playerTwoScrore.innerText = parseInt(playerTwoScrore.innerText) + 1;
-                localStorage.setItem("player_two_score", playerTwoScrore.innerText);
-            }
-            else {
-                playerOneScrore.innerText = parseInt(playerOneScrore.innerText) + 1;
-                localStorage.setItem("player_one_score", playerOneScrore.innerText);
-            }
-        }
-        startGame();
-    }
-
-    function isDraw() {
-        return [...allCells].every(cell => {
-            return cell.classList.contains(x_class) || cell.classList.contains(o_class)
-        })
-    }
-
-    function placeMark(cell, currentClass) {
-        cell.classList.add(currentClass);
-    }
-
-    function swapTurns() {
-        o_turn = !o_turn;
-    }
-
-    function setBoardHoverClass() {
-        board.classList.remove(x_class);
-        board.classList.remove(o_class);
-        if (o_turn) {
-            board.classList.add(o_class);
-        } else {
-            board.classList.add(x_class);
-        }
-    }
-
-    function checkWin(currentClass) {
-        return winningCombi.some(combination => {
-            return combination.every(i => {
-            return allCells[i].classList.contains(currentClass)
-            })
-        })
-    }
-}
 
 // Calculatrice
 function callCalculatrice() {
@@ -1022,6 +903,7 @@ function reset_chrono() {
     secondsChrono = 0;
     clearTimeout(timeoutChrono);
 }
+
 
 
 var player_one = 1;
